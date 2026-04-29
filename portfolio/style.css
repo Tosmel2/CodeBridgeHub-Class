@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.about-container {
+    border: 2px solid red;
+}
+
+.about-container .about-title {
+    text-align: center;
+}
+
+.aboutme-details-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 2px solid orange;
+}
+
+.about-left {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid green;
+}
+
+.aboutme-right {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid blue;
+}
+
+
+/* Standard syntax */
+@media screen and (max-width: 768px) {
+
+    .aboutme-details-container {
+        flex-direction: column;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer {
+    background-color: #0a0a0f;
+    color: #939191;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
