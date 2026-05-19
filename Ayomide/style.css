@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body {
+    background-color: aqua;
+} */
+
+h1 {
+    border: 2px solid green;
+    /* border-style: solid;
+    border-width: 4px;
+    border-color: red; */
+      /* padding: 0px 20px; */
+    /* padding: 20px 20px 20px 20px; */
+    /* padding: 20px; */
+    /* padding-top: 20px; */
+    /* padding-right: 20px;
+    padding-bottom: 20px; */
+    /* padding-left: 20px; */
+    /* margin: 20px; */
+}
+
+h2 {
+    border: 2px solid blue;
+}
+
+.colorme {
+    color: red;
+}
+
+.bgcolor {
+    background-color: yellow;
+}
+
+#highlight-text {
+    background-color: lightblue;
+    color: darkblue;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+/* ==============This unorderlist section============ */
+
+ul li .python {
+    text-decoration: none;
+    color: red;
+}
+
+ul li .python:hover {
+    color: green;
+    /* color: blue; */
+    font-size: 50px;
+}
+
+/* =================This is footer section================= */
+footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
