@@ -28,7 +28,10 @@ h2 {
 }
 
 .colorme {
-    color: red;
+    /* color: red; */
+    /* color: rgb(255, 255, 255); */
+    /* color: rgba(255, 0, 0, 0.5); */
+    color: #e47200;
 }
 
 .bgcolor {
@@ -61,4 +64,24 @@ footer {
     color: white;
     text-align: center;
     padding: 20px;
+}
+
+.container {
+    background-image: url('./img/tech.avif');
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    background-repeat: no-repeat;
+}
+/* p {
+    text-transform: capitalize;
+} */
+
+/* a {
+    text-decoration: none;
+} */
+
+.test-lineheight {
+    line-height: 1.5;
+    background-color: yellow; 
 }
