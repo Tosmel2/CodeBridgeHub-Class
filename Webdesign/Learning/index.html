@@ -4,26 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="./img/logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
     <title>Home - Learning Hub</title>
 </head>
 <body>
     <h1>Heading 1</h1>
     <h2>Heading 2</h2>
     <h2>Heading 2</h2>
+    
 
     <h2>Heading 2</h2>
     <h3>Heading 3</h3>
     <h4>Heading 4</h4>
     <h5>Heading 5</h5>
     <h6>Heading 6</h6>
-    <p>Lorem <b>ipsum</b> dolor<sup>1</sup> sit<sub>3</sub> amet, <i>consectetur</i> adipisicing <strong>elit</strong>. Ipsam ratione velit <em>doloremque</em> reiciendis officia maxime atque?<br /> <hr />Eligendi praesentium, veritatis corporis id a veniam temporibus beatae voluptas rerum dolorum enim modi?</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi accusantium odio adipisci ea quo sequi ipsum, minima, est possimus facere neque modi impedit praesentium quas, totam eveniet veniam harum quae! <b>ipsum</b> dolor<sup>1</sup> sit<sub>3</sub> amet, <i>consectetur</i> adipisicing <strong>elit</strong>. Ipsam ratione velit <em>doloremque</em> reiciendis officia maxime atque?<br /> <hr />Eligendi praesentium, veritatis corporis id a veniam temporibus beatae voluptas rerum dolorum enim modi?</p>
 
 
 
     <!-- Heading section -->
-    <header>
-        <h1>Welcome to the Learning Hub</h1>
-        <nav>
+    <header style="border: 2px solid blue;">
+        <h1 style="border: 2px solid rgb(0, 255, 47);">Welcome to the Learning Hub</h1>
+        <nav style="border: 2px solid blue;">
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="https://www.w3schools.com/html/default.asp" target="_blank">Courses</a></li>
@@ -36,22 +38,30 @@
 
     <!-- Main content section -->
     <main>
-        <section style="border: 2px solid red;">
-            <div></div>
-            <h2>Discover New Skills</h2>
-            <p>Explore our wide range of courses designed to help you learn new skills and advance your career. Whether you're interested in technology, business, or creative arts, we have something for everyone.</p>
+        <section style="border: 4px dotted red;">
+            <h2 class="discover-hover" style="border: 2px solid blue; padding: 20px;">Discover New Skills</h2>
+            <h2 style="border: 2px solid green; padding: 20px;">Discover New Skills</h2>
+            <p class="explore-text">Explore our wide range of courses designed to help you learn new skills and advance your career. Whether you're interested in technology, business, or creative arts, we have something for everyone.</p>
+            <a style="display: block;" href="courses.html">Browse Courses</a>
+            <a href="courses.html">Browse Courses</a>
+            <a href="courses.html">Browse Courses</a>
             <a href="courses.html">Browse Courses</a>
         </section>
 
+        <div class="input-field">
+            <input type="text" placeholder="Enter your name" id="name-input" required>
+            <button id="submit-btn">Submit</button>
+        </div>
+
         <section style="border: 2px solid blue;">
             <h2>Join Our Community</h2>
-            <p>Connect with like-minded learners and industry experts. Share your progress, ask questions, and collaborate on projects to enhance your learning experience.</p>
+            <p class="connect-para explore-text">Connect with like-minded learners and industry experts. Share your progress, ask questions, and collaborate on projects to enhance your learning experience.</p>
             <a href="community.html">Join the Community</a>
         </section>
 
         <section style="border: 2px solid green;"   >
-            <h2>Get Support</h2>
-            <p>The CodebridgeHub support team is here to help you with any questions or issues you may encounter. Don't hesitate to reach out for assistance.</p>
+            <h2 id="support">Get Support</h2>
+            <p class="connect-para">The CodebridgeHub support team is here to help you with any questions or issues you may encounter. Don't hesitate to reach out for assistance.</p>
             <a href="contact.html">Contact CodebridgeHub</a>
         </section>
 
@@ -59,7 +69,7 @@
         
     </main>
 
-
+<!-- ==================Footer section================== -->
     <footer>
         <p>&copy; 2026 Learning Hub&reg;. All rights reserved.</p>
     </footer>
