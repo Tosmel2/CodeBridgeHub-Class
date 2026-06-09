@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Mastery — Class Notes By Tosin Adewale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0b;
+    --paper: #faf7f2;
+    --cream: #f2ede4;
+    --accent: #c84b2f;
+    --accent2: #2a6b4f;
+    --accent3: #1e3a6e;
+    --gold: #b8860b;
+    --muted: #7a7168;
+    --code-bg: #1a1814;
+    --code-fg: #e8dcc8;
+    --border: #d4cec5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    font-size: 16px;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  #sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--ink);
+    color: var(--cream);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 0 0 2rem;
+    transition: transform 0.3s ease;
+  }
+
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-thumb { background: #444; border-radius: 2px; }
+
+  .sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid #2a2820;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+
+  .sidebar-title span { display: block; font-size: 0.65rem; color: #888; font-family: 'DM Sans', sans-serif; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+
+  .nav-section { padding: 1rem 0 0; }
+  .nav-section-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #666;
+    padding: 0.5rem 1.5rem 0.25rem;
+    font-weight: 600;
+  }
+
+  .nav-section a {
+    display: block;
+    padding: 0.35rem 1.5rem;
+    color: #b0a898;
+    text-decoration: none;
+    font-size: 0.82rem;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-section a:hover, .nav-section a.active {
+    color: var(--paper);
+    border-left-color: var(--accent);
+    background: rgba(255,255,255,0.04);
+    padding-left: 1.8rem;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: 280px;
+    min-height: 100vh;
+  }
+
+  /* ── COVER ── */
+  #cover {
+    background: var(--ink);
+    color: var(--paper);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #cover::before {
+    content: 'JS';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 28rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cover-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .cover-subtitle {
+    font-size: 1.1rem;
+    color: #888;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 3rem;
+  }
+
+  .cover-meta-item { }
+  .cover-meta-item .label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: #555; margin-bottom: 0.2rem; }
+  .cover-meta-item .value { font-size: 0.95rem; color: #ccc; }
+
+  .cover-chapters {
+    position: absolute;
+    right: 4rem;
+    bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: right;
+  }
+
+  .cover-chapters span {
+    font-size: 0.7rem;
+    color: #444;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 5rem 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── CHAPTER HEADER ── */
+  .chapter-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+  }
+
+  .chapter-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .chapter-desc {
+    margin-top: 0.8rem;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 300;
+    max-width: 580px;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 2.5rem 0 0.8rem;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 2rem 0 0.5rem;
+    color: var(--accent3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  p { margin-bottom: 1rem; color: #2a2820; }
+
+  strong { font-weight: 600; color: var(--ink); }
+
+  /* ── CODE BLOCKS ── */
+  pre {
+    background: var(--code-bg);
+    color: var(--code-fg);
+    padding: 1.5rem 1.8rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1.2rem 0 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    position: relative;
+    border-left: 3px solid var(--accent);
+  }
+
+  pre .comment { color: #6a7560; font-style: italic; }
+  pre .keyword { color: #c792ea; }
+  pre .string { color: #c3e88d; }
+  pre .number { color: #f78c6c; }
+  pre .fn { color: #82aaff; }
+  pre .punct { color: #89ddff; }
+  pre .const { color: #ffcb6b; }
+  pre .tag { color: #f07178; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.83em;
+    background: #eae5dc;
+    padding: 0.15em 0.45em;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+
+  /* ── CALLOUTS ── */
+  .note, .tip, .warn, .concept {
+    padding: 1.2rem 1.5rem;
+    border-radius: 4px;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+  }
+
+  .note { background: #eef3f8; border-left: 4px solid var(--accent3); }
+  .tip { background: #eef6f2; border-left: 4px solid var(--accent2); }
+  .warn { background: #fdf3ee; border-left: 4px solid var(--accent); }
+  .concept { background: var(--cream); border-left: 4px solid var(--gold); }
+
+  .note::before { content: '📌 Note: '; font-weight: 600; color: var(--accent3); }
+  .tip::before { content: '💡 Tip: '; font-weight: 600; color: var(--accent2); }
+  .warn::before { content: '⚠️ Watch out: '; font-weight: 600; color: var(--accent); }
+  .concept::before { content: '🔑 Key Concept: '; font-weight: 600; color: var(--gold); }
+
+  /* ── COMPARISON TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+
+  th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: var(--cream); }
+
+  /* ── TOC ── */
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .toc-item {
+    padding: 1.2rem 1.5rem;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s;
+    display: block;
+  }
+
+  .toc-item:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .toc-item .ch { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.1em; }
+  .toc-item:hover .ch { color: var(--gold); }
+  .toc-item .name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; line-height: 1.3; }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    background: var(--accent);
+    color: white;
+    padding: 3rem 4rem;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .section-divider .part-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.5rem; }
+  .section-divider .part-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; }
+
+  /* ── MOBILE TOGGLE ── */
+  #menu-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem; left: 1rem;
+    z-index: 200;
+    background: var(--ink);
+    color: white;
+    border: none;
+    width: 42px; height: 42px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 900px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    #menu-toggle { display: flex; align-items: center; justify-content: center; }
+    .page { padding: 4rem 1.5rem; }
+    #cover { padding: 4rem 2rem; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .cover-chapters { display: none; }
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    z-index: 300;
+    transition: width 0.1s;
+    width: 0%;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-title">
+    <span>Class Notes</span>
+    JavaScript Mastery
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Front Matter</div>
+    <a href="#cover">Cover</a>
+    <a href="#toc">Table of Contents</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Part I — Foundations</div>
+    <a href="#ch1">Ch 1 · What is JavaScript?</a>
+    <a href="#ch2">Ch 2 · Variables & Data Types</a>
+    <a href="#ch3">Ch 3 · Operators</a>
+    <a href="#ch4">Ch 4 · Control Flow</a>
+    <a href="#ch5">Ch 5 · Functions</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Part II — Core Concepts</div>
+    <a href="#ch6">Ch 6 · Arrays</a>
+    <a href="#ch7">Ch 7 · Objects</a>
+    <a href="#ch8">Ch 8 · The DOM</a>
+    <a href="#ch9">Ch 9 · Events</a>
+    <a href="#ch10">Ch 10 · Forms & Validation</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Part III — Modern JS</div>
+    <a href="#ch11">Ch 11 · ES6+ Features</a>
+    <a href="#ch12">Ch 12 · Scope & Closures</a>
+    <a href="#ch13">Ch 13 · Prototypes & Classes</a>
+    <a href="#ch14">Ch 14 · Error Handling</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Part IV — Async JS</div>
+    <a href="#ch15">Ch 15 · Callbacks & Promises</a>
+    <a href="#ch16">Ch 16 · Async / Await</a>
+    <a href="#ch17">Ch 17 · Fetch API</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Part V — Advanced</div>
+    <a href="#ch18">Ch 18 · Modules</a>
+    <a href="#ch19">Ch 19 · Web Storage & Cookies</a>
+    <a href="#ch20">Ch 20 · Performance & Best Practices</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- COVER -->
+  <section id="cover">
+    <div class="cover-label">Complete Class Notes</div>
+    <h1 class="cover-title">JavaScript<br><em>Mastery</em></h1>
+    <p class="cover-subtitle">From zero to building interactive websites and full-stack web applications — a thorough, practical guide with real code.</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="label">Chapters</div>
+        <div class="value">20 Chapters</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Level</div>
+        <div class="value">Beginner → Advanced</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="label">Focus</div>
+        <div class="value">Web Development</div>
+      </div>
+    </div>
+    <div class="cover-chapters">
+      <span>Variables · Functions · Arrays</span>
+      <span>DOM · Events · Classes</span>
+      <span>Async · Fetch · Modules</span>
+      <span>Performance · Best Practices</span>
+    </div>
+  </section>
+
+  <!-- TABLE OF CONTENTS -->
+  <section id="toc" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Front Matter</div>
+      <h1 class="chapter-title">Table of Contents</h1>
+    </div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#ch1"><div class="ch">Chapter 01</div><div class="name">What is JavaScript?</div></a>
+      <a class="toc-item" href="#ch2"><div class="ch">Chapter 02</div><div class="name">Variables & Data Types</div></a>
+      <a class="toc-item" href="#ch3"><div class="ch">Chapter 03</div><div class="name">Operators</div></a>
+      <a class="toc-item" href="#ch4"><div class="ch">Chapter 04</div><div class="name">Control Flow</div></a>
+      <a class="toc-item" href="#ch5"><div class="ch">Chapter 05</div><div class="name">Functions</div></a>
+      <a class="toc-item" href="#ch6"><div class="ch">Chapter 06</div><div class="name">Arrays</div></a>
+      <a class="toc-item" href="#ch7"><div class="ch">Chapter 07</div><div class="name">Objects</div></a>
+      <a class="toc-item" href="#ch8"><div class="ch">Chapter 08</div><div class="name">The DOM</div></a>
+      <a class="toc-item" href="#ch9"><div class="ch">Chapter 09</div><div class="name">Events</div></a>
+      <a class="toc-item" href="#ch10"><div class="ch">Chapter 10</div><div class="name">Forms & Validation</div></a>
+      <a class="toc-item" href="#ch11"><div class="ch">Chapter 11</div><div class="name">ES6+ Features</div></a>
+      <a class="toc-item" href="#ch12"><div class="ch">Chapter 12</div><div class="name">Scope & Closures</div></a>
+      <a class="toc-item" href="#ch13"><div class="ch">Chapter 13</div><div class="name">Prototypes & Classes</div></a>
+      <a class="toc-item" href="#ch14"><div class="ch">Chapter 14</div><div class="name">Error Handling</div></a>
+      <a class="toc-item" href="#ch15"><div class="ch">Chapter 15</div><div class="name">Callbacks & Promises</div></a>
+      <a class="toc-item" href="#ch16"><div class="ch">Chapter 16</div><div class="name">Async / Await</div></a>
+      <a class="toc-item" href="#ch17"><div class="ch">Chapter 17</div><div class="name">Fetch API</div></a>
+      <a class="toc-item" href="#ch18"><div class="ch">Chapter 18</div><div class="name">Modules (ESM)</div></a>
+      <a class="toc-item" href="#ch19"><div class="ch">Chapter 19</div><div class="name">Web Storage & Cookies</div></a>
+      <a class="toc-item" href="#ch20"><div class="ch">Chapter 20</div><div class="name">Performance & Best Practices</div></a>
+    </div>
+  </section>
+
+  <!-- PART I DIVIDER -->
+  <div class="section-divider">
+    <div class="part-label">Part One</div>
+    <div class="part-title">Foundations</div>
+  </div>
+
+  <!-- CHAPTER 1 -->
+  <section id="ch1" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 01</div>
+      <h1 class="chapter-title">What is JavaScript?</h1>
+      <p class="chapter-desc">Understanding the language of the web — where it lives, how it runs, and how to write your first line of code.</p>
+    </div>
+
+    <h2>1.1 A Brief History</h2>
+    <p>JavaScript was created by Brendan Eich in 1995 in just 10 days while he worked at Netscape. Originally called <strong>Mocha</strong>, then <strong>LiveScript</strong>, it was renamed JavaScript as a marketing move to piggyback on Java's popularity — though the two languages are entirely different.</p>
+    <p>Today, JavaScript is standardised under the name <strong>ECMAScript</strong> (ES). Modern browsers implement ES2015 (ES6) and beyond, giving developers a very powerful language to work with.</p>
+
+    <h2>1.2 What Can JavaScript Do?</h2>
+    <p>JavaScript is the <em>only</em> programming language that runs natively in the browser. It can:</p>
+    <ul style="margin:0.5rem 0 1rem 1.5rem; line-height:2;">
+      <li>Dynamically update HTML and CSS</li>
+      <li>Respond to user events (clicks, keypresses, scrolls)</li>
+      <li>Fetch data from servers without reloading a page (AJAX/Fetch)</li>
+      <li>Store data locally in the browser</li>
+      <li>Power full back-end servers via <strong>Node.js</strong></li>
+      <li>Build mobile apps (React Native), desktop apps (Electron)</li>
+    </ul>
+
+    <h2>1.3 How JavaScript Runs</h2>
+    <p>Browsers contain a JavaScript <strong>engine</strong> — a program that reads and executes your code. V8 (Chrome/Node.js), SpiderMonkey (Firefox), and JavaScriptCore (Safari) are the main ones. Modern engines use <strong>Just-In-Time (JIT)</strong> compilation to run JS at near-native speed.</p>
+
+    <div class="concept">JavaScript is single-threaded — it executes one task at a time, but its event loop allows it to handle asynchronous operations efficiently without blocking.</div>
+
+    <h2>1.4 Adding JavaScript to a Web Page</h2>
+    <p>There are three ways to include JavaScript in an HTML file:</p>
+
+    <h3>Inline (avoid this)</h3>
+<pre><code><span class="tag">&lt;button</span> onclick=<span class="string">"alert('Hello!')"</span><span class="tag">&gt;</span>Click me<span class="tag">&lt;/button&gt;</span></code></pre>
+
+    <h3>Internal Script Tag</h3>
+<pre><code><span class="tag">&lt;script&gt;</span>
+  <span class="comment">// Your JS code goes here</span>
+  console.<span class="fn">log</span>(<span class="string">'Hello, World!'</span>);
+<span class="tag">&lt;/script&gt;</span></code></pre>
+
+    <h3>External File (recommended)</h3>
+<pre><code><span class="comment">&lt;!-- Place before &lt;/body&gt; or use defer --&gt;</span>
+<span class="tag">&lt;script</span> src=<span class="string">"app.js"</span> defer<span class="tag">&gt;&lt;/script&gt;</span></code></pre>
+
+    <div class="tip">Always use <code>defer</code> or place your script tag at the bottom of <code>&lt;body&gt;</code>. This ensures the HTML is fully parsed before JS runs, preventing errors when accessing DOM elements.</div>
+
+    <h2>1.5 The Browser Console</h2>
+    <p>Open <strong>DevTools</strong> (F12 or Cmd+Option+I) and go to the <strong>Console</strong> tab. This is your live playground for testing JavaScript.</p>
+<pre><code><span class="comment">// Print to the console</span>
+console.<span class="fn">log</span>(<span class="string">'Hello, World!'</span>);     <span class="comment">// general output</span>
+console.<span class="fn">warn</span>(<span class="string">'Something is off'</span>);  <span class="comment">// yellow warning</span>
+console.<span class="fn">error</span>(<span class="string">'Something broke!'</span>); <span class="comment">// red error</span>
+console.<span class="fn">table</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);           <span class="comment">// display as table</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 2 -->
+  <section id="ch2" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 02</div>
+      <h1 class="chapter-title">Variables & Data Types</h1>
+      <p class="chapter-desc">How JavaScript stores and categorises information — the building blocks of every program.</p>
+    </div>
+
+    <h2>2.1 Declaring Variables</h2>
+    <p>A variable is a named container for a value. JavaScript has three ways to declare one:</p>
+
+    <table>
+      <thead><tr><th>Keyword</th><th>Scope</th><th>Re-assignable?</th><th>Hoisted?</th><th>Use it?</th></tr></thead>
+      <tbody>
+        <tr><td><code>var</code></td><td>Function</td><td>Yes</td><td>Yes (as <code>undefined</code>)</td><td>❌ Avoid</td></tr>
+        <tr><td><code>let</code></td><td>Block</td><td>Yes</td><td>No (TDZ)</td><td>✅ Yes</td></tr>
+        <tr><td><code>const</code></td><td>Block</td><td>No</td><td>No (TDZ)</td><td>✅ Preferred</td></tr>
+      </tbody>
+    </table>
+
+<pre><code><span class="keyword">const</span> <span class="const">name</span> = <span class="string">'Tosin'</span>;   <span class="comment">// value never changes</span>
+<span class="keyword">let</span> age = <span class="number">25</span>;            <span class="comment">// value may change later</span>
+age = <span class="number">26</span>;                <span class="comment">// ✅ fine — let is re-assignable</span>
+
+<span class="comment">// name = 'John';         ❌ TypeError: Assignment to constant variable</span></code></pre>
+
+    <div class="tip">Default to <code>const</code>. Only switch to <code>let</code> when you know the value will be reassigned. Never use <code>var</code> in modern code.</div>
+
+    <h2>2.2 Primitive Data Types</h2>
+    <p>JavaScript has <strong>7 primitive types</strong> — values that are immutable and stored directly.</p>
+
+<pre><code><span class="comment">// 1. String — text</span>
+<span class="keyword">const</span> <span class="const">greeting</span> = <span class="string">'Hello'</span>;
+<span class="keyword">const</span> <span class="const">name</span> = <span class="string">"World"</span>;
+<span class="keyword">const</span> <span class="const">msg</span> = <span class="string">`Hello, <span class="punct">${</span>name<span class="punct">}</span>!`</span>; <span class="comment">// template literal</span>
+
+<span class="comment">// 2. Number — integers and decimals</span>
+<span class="keyword">const</span> <span class="const">score</span> = <span class="number">98</span>;
+<span class="keyword">const</span> <span class="const">pi</span> = <span class="number">3.14159</span>;
+<span class="keyword">const</span> <span class="const">huge</span> = <span class="number">1e6</span>;          <span class="comment">// 1,000,000</span>
+
+<span class="comment">// 3. Boolean</span>
+<span class="keyword">const</span> <span class="const">isLoggedIn</span> = <span class="keyword">true</span>;
+<span class="keyword">const</span> <span class="const">hasPaid</span> = <span class="keyword">false</span>;
+
+<span class="comment">// 4. undefined — declared but not assigned</span>
+<span class="keyword">let</span> city;
+console.<span class="fn">log</span>(city); <span class="comment">// undefined</span>
+
+<span class="comment">// 5. null — intentional absence of a value</span>
+<span class="keyword">const</span> <span class="const">user</span> = <span class="keyword">null</span>;
+
+<span class="comment">// 6. Symbol — unique identifier</span>
+<span class="keyword">const</span> <span class="const">id</span> = Symbol(<span class="string">'id'</span>);
+
+<span class="comment">// 7. BigInt — integers beyond Number.MAX_SAFE_INTEGER</span>
+<span class="keyword">const</span> <span class="const">bigNum</span> = <span class="number">9007199254740993n</span>;</code></pre>
+
+    <h2>2.3 The typeof Operator</h2>
+<pre><code>typeof <span class="string">'hello'</span>   <span class="comment">// "string"</span>
+typeof <span class="number">42</span>        <span class="comment">// "number"</span>
+typeof <span class="keyword">true</span>      <span class="comment">// "boolean"</span>
+typeof <span class="keyword">undefined</span> <span class="comment">// "undefined"</span>
+typeof <span class="keyword">null</span>      <span class="comment">// "object" ← famous JS bug, null is NOT an object</span>
+typeof {}        <span class="comment">// "object"</span>
+typeof []        <span class="comment">// "object" ← arrays are objects too</span>
+typeof <span class="fn">function</span>(){} <span class="comment">// "function"</span></code></pre>
+
+    <h2>2.4 Type Coercion</h2>
+    <p>JavaScript automatically converts types in some operations. This is called <strong>implicit coercion</strong> and is a common source of bugs.</p>
+
+<pre><code><span class="comment">// String + Number = String (concatenation wins)</span>
+<span class="string">'5'</span> + <span class="number">3</span>        <span class="comment">// "53"  ← NOT 8 !</span>
+<span class="string">'5'</span> - <span class="number">3</span>        <span class="comment">// 2    ← subtraction converts string to number</span>
+
+<span class="comment">// Explicit conversion (always prefer this)</span>
+Number(<span class="string">'42'</span>)   <span class="comment">// 42</span>
+String(<span class="number">100</span>)    <span class="comment">// "100"</span>
+Boolean(<span class="number">0</span>)     <span class="comment">// false</span>
+Boolean(<span class="string">''</span>)    <span class="comment">// false</span>
+Boolean(<span class="string">'hi'</span>)  <span class="comment">// true</span>
+parseInt(<span class="string">'42px'</span>) <span class="comment">// 42</span></code></pre>
+
+    <div class="warn">Always use <code>===</code> (strict equality) instead of <code>==</code> (loose equality). Loose equality performs coercion: <code>0 == false</code> is <code>true</code>, <code>'' == false</code> is <code>true</code>. Strict equality does not coerce.</div>
+  </section>
+
+  <!-- CHAPTER 3 -->
+  <section id="ch3" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 03</div>
+      <h1 class="chapter-title">Operators</h1>
+      <p class="chapter-desc">The symbols that perform computations, comparisons, and logical decisions in your code.</p>
+    </div>
+
+    <h2>3.1 Arithmetic Operators</h2>
+<pre><code><span class="keyword">const</span> <span class="const">a</span> = <span class="number">10</span>, b = <span class="number">3</span>;
+
+a + b   <span class="comment">// 13  — addition</span>
+a - b   <span class="comment">// 7   — subtraction</span>
+a * b   <span class="comment">// 30  — multiplication</span>
+a / b   <span class="comment">// 3.333... — division</span>
+a % b   <span class="comment">// 1   — remainder (modulo)</span>
+a ** b  <span class="comment">// 1000 — exponentiation (10³)</span>
+
+<span class="comment">// Increment / Decrement</span>
+<span class="keyword">let</span> count = <span class="number">5</span>;
+count++;  <span class="comment">// 6 (post-increment)</span>
+++count;  <span class="comment">// 7 (pre-increment)</span>
+count--;  <span class="comment">// 6 (post-decrement)</span></code></pre>
+
+    <h2>3.2 Assignment Operators</h2>
+<pre><code><span class="keyword">let</span> x = <span class="number">10</span>;
+x += <span class="number">5</span>;   <span class="comment">// x = x + 5  → 15</span>
+x -= <span class="number">3</span>;   <span class="comment">// x = x - 3  → 12</span>
+x *= <span class="number">2</span>;   <span class="comment">// x = x * 2  → 24</span>
+x /= <span class="number">4</span>;   <span class="comment">// x = x / 4  → 6</span>
+x %= <span class="number">4</span>;   <span class="comment">// x = x % 4  → 2</span>
+x **= <span class="number">3</span>;  <span class="comment">// x = x ** 3 → 8</span></code></pre>
+
+    <h2>3.3 Comparison Operators</h2>
+<pre><code><span class="number">5</span> === <span class="number">5</span>    <span class="comment">// true  — strict equal (type + value)</span>
+<span class="number">5</span> !== <span class="number">6</span>    <span class="comment">// true  — strict not equal</span>
+<span class="number">5</span> &gt; <span class="number">3</span>      <span class="comment">// true</span>
+<span class="number">5</span> &gt;= <span class="number">5</span>     <span class="comment">// true</span>
+<span class="number">5</span> &lt; <span class="number">10</span>     <span class="comment">// true</span>
+<span class="number">5</span> &lt;= <span class="number">4</span>     <span class="comment">// false</span></code></pre>
+
+    <h2>3.4 Logical Operators</h2>
+<pre><code><span class="comment">// AND — both must be true</span>
+<span class="keyword">true</span> &amp;&amp; <span class="keyword">true</span>    <span class="comment">// true</span>
+<span class="keyword">true</span> &amp;&amp; <span class="keyword">false</span>   <span class="comment">// false</span>
+
+<span class="comment">// OR — at least one must be true</span>
+<span class="keyword">false</span> || <span class="keyword">true</span>   <span class="comment">// true</span>
+<span class="keyword">false</span> || <span class="keyword">false</span>  <span class="comment">// false</span>
+
+<span class="comment">// NOT — inverts the boolean</span>
+!<span class="keyword">true</span>           <span class="comment">// false</span>
+!<span class="keyword">false</span>          <span class="comment">// true</span>
+
+<span class="comment">// Practical use</span>
+<span class="keyword">const</span> <span class="const">isAdmin</span> = <span class="keyword">true</span>;
+<span class="keyword">const</span> <span class="const">hasAccess</span> = <span class="keyword">true</span>;
+<span class="keyword">if</span> (isAdmin &amp;&amp; hasAccess) console.<span class="fn">log</span>(<span class="string">'Welcome!'</span>);</code></pre>
+
+    <h2>3.5 Nullish Coalescing & Optional Chaining</h2>
+<pre><code><span class="comment">// ?? — use right side only if left is null or undefined</span>
+<span class="keyword">const</span> <span class="const">username</span> = <span class="keyword">null</span> ?? <span class="string">'Guest'</span>;   <span class="comment">// "Guest"</span>
+<span class="keyword">const</span> <span class="const">port</span> = <span class="number">0</span> ?? <span class="number">3000</span>;             <span class="comment">// 0  (0 is not null/undefined)</span>
+
+<span class="comment">// ?. — optional chaining: access deeply without throwing</span>
+<span class="keyword">const</span> <span class="const">user</span> = { profile: { name: <span class="string">'Tosin'</span> } };
+<span class="keyword">const</span> <span class="const">city</span> = user?.address?.city;    <span class="comment">// undefined (no error!)</span>
+<span class="keyword">const</span> <span class="const">name</span> = user?.profile?.name;    <span class="comment">// "Tosin"</span></code></pre>
+
+    <h2>3.6 Ternary Operator</h2>
+    <p>A compact one-line <code>if/else</code>:</p>
+<pre><code><span class="keyword">const</span> <span class="const">age</span> = <span class="number">20</span>;
+<span class="keyword">const</span> <span class="const">status</span> = age >= <span class="number">18</span> ? <span class="string">'Adult'</span> : <span class="string">'Minor'</span>;
+<span class="comment">// condition ? value_if_true : value_if_false</span>
+console.<span class="fn">log</span>(status); <span class="comment">// "Adult"</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 4 -->
+  <section id="ch4" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 04</div>
+      <h1 class="chapter-title">Control Flow</h1>
+      <p class="chapter-desc">Making your program make decisions and repeat actions based on conditions.</p>
+    </div>
+
+    <h2>4.1 if / else if / else</h2>
+<pre><code><span class="keyword">const</span> <span class="const">score</span> = <span class="number">72</span>;
+
+<span class="keyword">if</span> (score >= <span class="number">90</span>) {
+  console.<span class="fn">log</span>(<span class="string">'A'</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">80</span>) {
+  console.<span class="fn">log</span>(<span class="string">'B'</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">70</span>) {
+  console.<span class="fn">log</span>(<span class="string">'C'</span>); <span class="comment">// ← this runs</span>
+} <span class="keyword">else</span> {
+  console.<span class="fn">log</span>(<span class="string">'F'</span>);
+}</code></pre>
+
+    <h2>4.2 switch Statement</h2>
+<pre><code><span class="keyword">const</span> <span class="const">day</span> = <span class="string">'Monday'</span>;
+
+<span class="keyword">switch</span> (day) {
+  <span class="keyword">case</span> <span class="string">'Monday'</span>:
+  <span class="keyword">case</span> <span class="string">'Tuesday'</span>:
+    console.<span class="fn">log</span>(<span class="string">'Early week'</span>);
+    <span class="keyword">break</span>;
+  <span class="keyword">case</span> <span class="string">'Friday'</span>:
+    console.<span class="fn">log</span>(<span class="string">'TGIF!'</span>);
+    <span class="keyword">break</span>;
+  <span class="keyword">default</span>:
+    console.<span class="fn">log</span>(<span class="string">'Mid week'</span>);
+}</code></pre>
+
+    <div class="warn">Always include <code>break</code> in switch cases. Without it, execution "falls through" into the next case — this is usually a bug.</div>
+
+    <h2>4.3 Loops</h2>
+
+    <h3>for Loop</h3>
+<pre><code><span class="comment">// for (initializer; condition; update)</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) {
+  console.<span class="fn">log</span>(<span class="string">`Iteration <span class="punct">${</span>i<span class="punct">}</span>`</span>);
+}
+<span class="comment">// Prints: Iteration 0, 1, 2, 3, 4</span></code></pre>
+
+    <h3>while Loop</h3>
+<pre><code><span class="keyword">let</span> count = <span class="number">0</span>;
+<span class="keyword">while</span> (count &lt; <span class="number">3</span>) {
+  console.<span class="fn">log</span>(<span class="string">`count is <span class="punct">${</span>count<span class="punct">}</span>`</span>);
+  count++;
+}</code></pre>
+
+    <h3>for...of (arrays, strings)</h3>
+<pre><code><span class="keyword">const</span> <span class="const">fruits</span> = [<span class="string">'apple'</span>, <span class="string">'mango'</span>, <span class="string">'grape'</span>];
+
+<span class="keyword">for</span> (<span class="keyword">const</span> fruit <span class="keyword">of</span> fruits) {
+  console.<span class="fn">log</span>(fruit); <span class="comment">// apple, mango, grape</span>
+}</code></pre>
+
+    <h3>for...in (objects)</h3>
+<pre><code><span class="keyword">const</span> <span class="const">person</span> = { name: <span class="string">'Tosin'</span>, age: <span class="number">25</span>, city: <span class="string">'Lagos'</span> };
+
+<span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> person) {
+  console.<span class="fn">log</span>(<span class="string">`<span class="punct">${</span>key<span class="punct">}</span>: <span class="punct">${</span>person[key]<span class="punct">}</span>`</span>);
+}
+<span class="comment">// name: Tosin  /  age: 25  /  city: Lagos</span></code></pre>
+
+    <h2>4.4 break & continue</h2>
+<pre><code><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) {
+  <span class="keyword">if</span> (i === <span class="number">3</span>) <span class="keyword">continue</span>; <span class="comment">// skip 3</span>
+  <span class="keyword">if</span> (i === <span class="number">7</span>) <span class="keyword">break</span>;    <span class="comment">// stop at 7</span>
+  console.<span class="fn">log</span>(i);          <span class="comment">// 0, 1, 2, 4, 5, 6</span>
+}</code></pre>
+  </section>
+
+  <!-- CHAPTER 5 -->
+  <section id="ch5" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 05</div>
+      <h1 class="chapter-title">Functions</h1>
+      <p class="chapter-desc">Reusable blocks of code — the most fundamental building blocks of any JavaScript program.</p>
+    </div>
+
+    <h2>5.1 Function Declaration</h2>
+<pre><code><span class="keyword">function</span> <span class="fn">greet</span>(name) {
+  <span class="keyword">return</span> <span class="string">`Hello, <span class="punct">${</span>name<span class="punct">}</span>!`</span>;
+}
+
+console.<span class="fn">log</span>(<span class="fn">greet</span>(<span class="string">'Tosin'</span>)); <span class="comment">// "Hello, Tosin!"</span>
+
+<span class="comment">// Function declarations are hoisted — you can call them before they're defined</span></code></pre>
+
+    <h2>5.2 Function Expression</h2>
+<pre><code><span class="keyword">const</span> <span class="const">greet</span> = <span class="keyword">function</span>(name) {
+  <span class="keyword">return</span> <span class="string">`Hello, <span class="punct">${</span>name<span class="punct">}</span>!`</span>;
+};
+
+<span class="comment">// NOT hoisted — must be defined before calling</span></code></pre>
+
+    <h2>5.3 Arrow Functions (ES6)</h2>
+    <p>A concise syntax for writing functions, especially useful for callbacks:</p>
+<pre><code><span class="comment">// Full form</span>
+<span class="keyword">const</span> <span class="const">add</span> = (a, b) => {
+  <span class="keyword">return</span> a + b;
+};
+
+<span class="comment">// Implicit return (single expression, no braces)</span>
+<span class="keyword">const</span> <span class="const">multiply</span> = (a, b) => a * b;
+
+<span class="comment">// Single parameter (no parentheses needed)</span>
+<span class="keyword">const</span> <span class="const">double</span> = n => n * <span class="number">2</span>;
+
+<span class="comment">// No parameters</span>
+<span class="keyword">const</span> <span class="const">sayHi</span> = () => <span class="string">'Hi!'</span>;
+
+console.<span class="fn">log</span>(<span class="fn">add</span>(<span class="number">3</span>, <span class="number">4</span>));      <span class="comment">// 7</span>
+console.<span class="fn">log</span>(<span class="fn">double</span>(<span class="number">6</span>));     <span class="comment">// 12</span></code></pre>
+
+    <h2>5.4 Parameters & Arguments</h2>
+<pre><code><span class="comment">// Default parameters</span>
+<span class="keyword">function</span> <span class="fn">createUser</span>(name, role = <span class="string">'viewer'</span>) {
+  <span class="keyword">return</span> { name, role };
+}
+<span class="fn">createUser</span>(<span class="string">'Ada'</span>);           <span class="comment">// { name: 'Ada', role: 'viewer' }</span>
+<span class="fn">createUser</span>(<span class="string">'Tosin'</span>, <span class="string">'admin'</span>); <span class="comment">// { name: 'Tosin', role: 'admin' }</span>
+
+<span class="comment">// Rest parameters — collects remaining args into an array</span>
+<span class="keyword">function</span> <span class="fn">sum</span>(...numbers) {
+  <span class="keyword">return</span> numbers.<span class="fn">reduce</span>((acc, n) => acc + n, <span class="number">0</span>);
+}
+<span class="fn">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>); <span class="comment">// 10</span></code></pre>
+
+    <h2>5.5 First-Class Functions & Callbacks</h2>
+    <p>In JavaScript, functions are <strong>first-class citizens</strong> — they can be stored in variables, passed as arguments, and returned from other functions.</p>
+<pre><code><span class="comment">// Passing a function as an argument (callback)</span>
+<span class="keyword">function</span> <span class="fn">runTwice</span>(fn) {
+  <span class="fn">fn</span>();
+  <span class="fn">fn</span>();
+}
+
+<span class="fn">runTwice</span>(() => console.<span class="fn">log</span>(<span class="string">'Hello!'</span>));
+<span class="comment">// Hello!  Hello!</span>
+
+<span class="comment">// Returning a function from a function</span>
+<span class="keyword">function</span> <span class="fn">multiplier</span>(factor) {
+  <span class="keyword">return</span> n => n * factor;
+}
+<span class="keyword">const</span> <span class="const">triple</span> = <span class="fn">multiplier</span>(<span class="number">3</span>);
+<span class="fn">triple</span>(<span class="number">5</span>); <span class="comment">// 15</span></code></pre>
+
+    <div class="concept">A function that takes or returns another function is called a <strong>Higher-Order Function</strong>. Array methods like <code>.map()</code>, <code>.filter()</code>, and <code>.reduce()</code> are all higher-order functions.</div>
+  </section>
+
+  <!-- PART II DIVIDER -->
+  <div class="section-divider" style="background: var(--accent3);">
+    <div class="part-label">Part Two</div>
+    <div class="part-title">Core Concepts</div>
+  </div>
+
+  <!-- CHAPTER 6 -->
+  <section id="ch6" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 06</div>
+      <h1 class="chapter-title">Arrays</h1>
+      <p class="chapter-desc">Ordered collections of data — and the powerful methods for transforming them.</p>
+    </div>
+
+    <h2>6.1 Creating & Accessing Arrays</h2>
+<pre><code><span class="keyword">const</span> <span class="const">colors</span> = [<span class="string">'red'</span>, <span class="string">'green'</span>, <span class="string">'blue'</span>];
+
+colors[<span class="number">0</span>]     <span class="comment">// 'red'     — zero-indexed</span>
+colors[<span class="number">2</span>]     <span class="comment">// 'blue'</span>
+colors.length <span class="comment">// 3</span>
+colors.at(-<span class="number">1</span>) <span class="comment">// 'blue'   — last element (ES2022)</span>
+
+<span class="comment">// Modifying</span>
+colors.<span class="fn">push</span>(<span class="string">'yellow'</span>);   <span class="comment">// add to end   → ['red','green','blue','yellow']</span>
+colors.<span class="fn">pop</span>();            <span class="comment">// remove last  → ['red','green','blue']</span>
+colors.<span class="fn">unshift</span>(<span class="string">'pink'</span>); <span class="comment">// add to front</span>
+colors.<span class="fn">shift</span>();          <span class="comment">// remove first</span></code></pre>
+
+    <h2>6.2 Essential Array Methods</h2>
+
+    <h3>forEach — iterate</h3>
+<pre><code>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="fn">forEach</span>(n => console.<span class="fn">log</span>(n * <span class="number">2</span>)); <span class="comment">// 2, 4, 6</span></code></pre>
+
+    <h3>map — transform each element</h3>
+<pre><code><span class="keyword">const</span> <span class="const">prices</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>];
+<span class="keyword">const</span> <span class="const">withTax</span> = prices.<span class="fn">map</span>(p => p * <span class="number">1.1</span>);
+<span class="comment">// [11, 22, 33]  — returns a new array</span></code></pre>
+
+    <h3>filter — keep matching elements</h3>
+<pre><code><span class="keyword">const</span> <span class="const">nums</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
+<span class="keyword">const</span> <span class="const">evens</span> = nums.<span class="fn">filter</span>(n => n % <span class="number">2</span> === <span class="number">0</span>);
+<span class="comment">// [2, 4, 6]</span></code></pre>
+
+    <h3>reduce — accumulate into a single value</h3>
+<pre><code><span class="keyword">const</span> <span class="const">total</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>].<span class="fn">reduce</span>((acc, val) => acc + val, <span class="number">0</span>);
+<span class="comment">// 60</span></code></pre>
+
+    <h3>find & findIndex</h3>
+<pre><code><span class="keyword">const</span> <span class="const">users</span> = [
+  { id: <span class="number">1</span>, name: <span class="string">'Ada'</span> },
+  { id: <span class="number">2</span>, name: <span class="string">'Tosin'</span> }
+];
+<span class="keyword">const</span> <span class="const">user</span> = users.<span class="fn">find</span>(u => u.id === <span class="number">2</span>);
+<span class="comment">// { id: 2, name: 'Tosin' }</span>
+
+<span class="keyword">const</span> <span class="const">idx</span> = users.<span class="fn">findIndex</span>(u => u.id === <span class="number">2</span>);
+<span class="comment">// 1</span></code></pre>
+
+    <h3>some & every</h3>
+<pre><code><span class="keyword">const</span> <span class="const">scores</span> = [<span class="number">55</span>, <span class="number">72</span>, <span class="number">88</span>, <span class="number">41</span>];
+scores.<span class="fn">some</span>(s => s > <span class="number">80</span>);   <span class="comment">// true  — at least one</span>
+scores.<span class="fn">every</span>(s => s > <span class="number">40</span>);  <span class="comment">// true  — all of them</span></code></pre>
+
+    <h3>flat & flatMap</h3>
+<pre><code>[<span class="number">1</span>, [<span class="number">2</span>, [<span class="number">3</span>]]].<span class="fn">flat</span>(<span class="number">2</span>)                   <span class="comment">// [1, 2, 3]</span>
+[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="fn">flatMap</span>(n => [n, n * <span class="number">2</span>])      <span class="comment">// [1, 2, 2, 4, 3, 6]</span></code></pre>
+
+    <h2>6.3 Spread & Destructuring</h2>
+<pre><code><span class="comment">// Spread — copy / merge arrays</span>
+<span class="keyword">const</span> <span class="const">a</span> = [<span class="number">1</span>, <span class="number">2</span>];
+<span class="keyword">const</span> <span class="const">b</span> = [<span class="number">3</span>, <span class="number">4</span>];
+<span class="keyword">const</span> <span class="const">combined</span> = [...a, ...b]; <span class="comment">// [1, 2, 3, 4]</span>
+
+<span class="comment">// Destructuring — extract values</span>
+<span class="keyword">const</span> [first, second, ...rest] = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>];
+<span class="comment">// first=10, second=20, rest=[30, 40]</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 7 -->
+  <section id="ch7" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 07</div>
+      <h1 class="chapter-title">Objects</h1>
+      <p class="chapter-desc">Key-value stores that model real-world entities — the heart of JavaScript data structures.</p>
+    </div>
+
+    <h2>7.1 Creating Objects</h2>
+<pre><code><span class="comment">// Object literal (most common)</span>
+<span class="keyword">const</span> <span class="const">person</span> = {
+  name: <span class="string">'Tosin'</span>,
+  age: <span class="number">25</span>,
+  city: <span class="string">'Lagos'</span>,
+  <span class="fn">greet</span>() {
+    <span class="keyword">return</span> <span class="string">`Hi, I'm <span class="punct">${</span><span class="keyword">this</span>.name<span class="punct">}</span>`</span>;
+  }
+};
+
+<span class="comment">// Accessing properties</span>
+person.name        <span class="comment">// 'Tosin'   — dot notation</span>
+person[<span class="string">'age'</span>]      <span class="comment">// 25         — bracket notation</span>
+person.<span class="fn">greet</span>()     <span class="comment">// "Hi, I'm Tosin"</span>
+
+<span class="comment">// Adding / updating</span>
+person.email = <span class="string">'k@example.com'</span>;
+person.age = <span class="number">26</span>;
+
+<span class="comment">// Deleting</span>
+<span class="keyword">delete</span> person.city;</code></pre>
+
+    <h2>7.2 Object Destructuring</h2>
+<pre><code><span class="keyword">const</span> { name, age, city = <span class="string">'Unknown'</span> } = person;
+<span class="comment">// Extracts properties into variables; default for missing ones</span>
+
+<span class="comment">// Rename while destructuring</span>
+<span class="keyword">const</span> { name: fullName } = person;
+console.<span class="fn">log</span>(fullName); <span class="comment">// 'Tosin'</span>
+
+<span class="comment">// In function parameters</span>
+<span class="keyword">function</span> <span class="fn">display</span>({ name, age }) {
+  console.<span class="fn">log</span>(<span class="string">`<span class="punct">${</span>name<span class="punct">}</span> is <span class="punct">${</span>age<span class="punct">}</span>`</span>);
+}
+<span class="fn">display</span>(person);</code></pre>
+
+    <h2>7.3 Spread & Object.assign</h2>
+<pre><code><span class="comment">// Spread to merge objects</span>
+<span class="keyword">const</span> <span class="const">defaults</span> = { theme: <span class="string">'light'</span>, lang: <span class="string">'en'</span> };
+<span class="keyword">const</span> <span class="const">settings</span> = { ...defaults, theme: <span class="string">'dark'</span> };
+<span class="comment">// { theme: 'dark', lang: 'en' }  — later key wins</span>
+
+<span class="comment">// Immutable update pattern</span>
+<span class="keyword">const</span> <span class="const">updatedPerson</span> = { ...person, age: <span class="number">27</span> };</code></pre>
+
+    <h2>7.4 Useful Object Methods</h2>
+<pre><code><span class="keyword">const</span> <span class="const">car</span> = { make: <span class="string">'Toyota'</span>, model: <span class="string">'Camry'</span>, year: <span class="number">2022</span> };
+
+Object.<span class="fn">keys</span>(car)    <span class="comment">// ['make', 'model', 'year']</span>
+Object.<span class="fn">values</span>(car)  <span class="comment">// ['Toyota', 'Camry', 2022]</span>
+Object.<span class="fn">entries</span>(car) <span class="comment">// [['make','Toyota'], ['model','Camry'], ...]</span>
+
+<span class="comment">// Iterate over entries</span>
+Object.<span class="fn">entries</span>(car).<span class="fn">forEach</span>(([key, val]) => {
+  console.<span class="fn">log</span>(<span class="string">`<span class="punct">${</span>key<span class="punct">}</span>: <span class="punct">${</span>val<span class="punct">}</span>`</span>);
+});
+
+<span class="comment">// Freeze an object (prevent changes)</span>
+<span class="keyword">const</span> <span class="const">config</span> = Object.<span class="fn">freeze</span>({ apiUrl: <span class="string">'/api'</span> });</code></pre>
+  </section>
+
+  <!-- CHAPTER 8 -->
+  <section id="ch8" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 08</div>
+      <h1 class="chapter-title">The DOM</h1>
+      <p class="chapter-desc">The Document Object Model — JavaScript's interface to everything visible on a web page.</p>
+    </div>
+
+    <h2>8.1 What is the DOM?</h2>
+    <p>When a browser loads an HTML page, it builds a tree-like structure in memory called the <strong>DOM (Document Object Model)</strong>. JavaScript uses this tree to read, create, update, and delete HTML elements and CSS styles dynamically.</p>
+
+    <h2>8.2 Selecting Elements</h2>
+<pre><code><span class="comment">// Single element selectors</span>
+document.<span class="fn">getElementById</span>(<span class="string">'header'</span>)       <span class="comment">// by ID</span>
+document.<span class="fn">querySelector</span>(<span class="string">'.card'</span>)        <span class="comment">// first match (CSS selector)</span>
+document.<span class="fn">querySelector</span>(<span class="string">'#nav > a'</span>)     <span class="comment">// nested selector</span>
+
+<span class="comment">// Multiple elements</span>
+document.<span class="fn">querySelectorAll</span>(<span class="string">'li'</span>)         <span class="comment">// NodeList of all &lt;li&gt;</span>
+document.<span class="fn">getElementsByClassName</span>(<span class="string">'btn'</span>) <span class="comment">// HTMLCollection</span>
+
+<span class="comment">// querySelectorAll returns a NodeList — convert to Array if needed</span>
+<span class="keyword">const</span> <span class="const">items</span> = [...document.<span class="fn">querySelectorAll</span>(<span class="string">'li'</span>)];
+items.<span class="fn">forEach</span>(li => console.<span class="fn">log</span>(li.textContent));</code></pre>
+
+    <h2>8.3 Reading & Changing Content</h2>
+<pre><code><span class="keyword">const</span> <span class="const">el</span> = document.<span class="fn">querySelector</span>(<span class="string">'#title'</span>);
+
+<span class="comment">// Reading</span>
+el.textContent  <span class="comment">// plain text (safe)</span>
+el.innerHTML    <span class="comment">// HTML string (⚠️ XSS risk with user input)</span>
+
+<span class="comment">// Writing</span>
+el.textContent = <span class="string">'New Title'</span>;
+el.innerHTML = <span class="string">'&lt;strong&gt;Bold Title&lt;/strong&gt;'</span>;</code></pre>
+
+    <h2>8.4 Changing Styles & Classes</h2>
+<pre><code><span class="keyword">const</span> <span class="const">box</span> = document.<span class="fn">querySelector</span>(<span class="string">'.box'</span>);
+
+<span class="comment">// Inline styles</span>
+box.style.backgroundColor = <span class="string">'coral'</span>;
+box.style.fontSize = <span class="string">'18px'</span>;
+
+<span class="comment">// Class manipulation (preferred — keeps CSS in stylesheet)</span>
+box.classList.<span class="fn">add</span>(<span class="string">'active'</span>);
+box.classList.<span class="fn">remove</span>(<span class="string">'hidden'</span>);
+box.classList.<span class="fn">toggle</span>(<span class="string">'dark'</span>);    <span class="comment">// add if absent, remove if present</span>
+box.classList.<span class="fn">contains</span>(<span class="string">'active'</span>); <span class="comment">// true / false</span></code></pre>
+
+    <h2>8.5 Creating & Inserting Elements</h2>
+<pre><code><span class="comment">// Create a new element</span>
+<span class="keyword">const</span> <span class="const">li</span> = document.<span class="fn">createElement</span>(<span class="string">'li'</span>);
+li.textContent = <span class="string">'New Item'</span>;
+li.classList.<span class="fn">add</span>(<span class="string">'item'</span>);
+
+<span class="comment">// Insert into the DOM</span>
+<span class="keyword">const</span> <span class="const">list</span> = document.<span class="fn">querySelector</span>(<span class="string">'#list'</span>);
+list.<span class="fn">appendChild</span>(li);            <span class="comment">// at end</span>
+list.<span class="fn">prepend</span>(li);               <span class="comment">// at beginning</span>
+list.<span class="fn">insertAdjacentHTML</span>(<span class="string">'beforeend'</span>, <span class="string">'&lt;li&gt;Another&lt;/li&gt;'</span>);
+
+<span class="comment">// Remove an element</span>
+li.<span class="fn">remove</span>();</code></pre>
+
+    <h2>8.6 Attributes</h2>
+<pre><code><span class="keyword">const</span> <span class="const">img</span> = document.<span class="fn">querySelector</span>(<span class="string">'img'</span>);
+
+img.<span class="fn">getAttribute</span>(<span class="string">'src'</span>)           <span class="comment">// get attribute</span>
+img.<span class="fn">setAttribute</span>(<span class="string">'alt'</span>, <span class="string">'Logo'</span>)   <span class="comment">// set attribute</span>
+img.<span class="fn">removeAttribute</span>(<span class="string">'alt'</span>)       <span class="comment">// remove attribute</span>
+
+<span class="comment">// data-* attributes</span>
+<span class="comment">// &lt;button data-id="42"&gt;Delete&lt;/button&gt;</span>
+<span class="keyword">const</span> <span class="const">btn</span> = document.<span class="fn">querySelector</span>(<span class="string">'button'</span>);
+btn.dataset.id <span class="comment">// "42"</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 9 -->
+  <section id="ch9" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 09</div>
+      <h1 class="chapter-title">Events</h1>
+      <p class="chapter-desc">Listening and responding to user interactions — the foundation of interactivity.</p>
+    </div>
+
+    <h2>9.1 addEventListener</h2>
+<pre><code><span class="keyword">const</span> <span class="const">btn</span> = document.<span class="fn">querySelector</span>(<span class="string">'#myBtn'</span>);
+
+btn.<span class="fn">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>(event) {
+  console.<span class="fn">log</span>(<span class="string">'Clicked!'</span>, event);
+});
+
+<span class="comment">// Arrow function shorthand</span>
+btn.<span class="fn">addEventListener</span>(<span class="string">'click'</span>, (e) => {
+  e.target.textContent = <span class="string">'Clicked!'</span>;
+});</code></pre>
+
+    <h2>9.2 The Event Object</h2>
+<pre><code>document.<span class="fn">addEventListener</span>(<span class="string">'click'</span>, (e) => {
+  console.<span class="fn">log</span>(e.target);        <span class="comment">// element clicked</span>
+  console.<span class="fn">log</span>(e.type);          <span class="comment">// 'click'</span>
+  console.<span class="fn">log</span>(e.clientX, e.clientY); <span class="comment">// mouse coords</span>
+});
+
+document.<span class="fn">addEventListener</span>(<span class="string">'keydown'</span>, (e) => {
+  console.<span class="fn">log</span>(e.key);    <span class="comment">// 'Enter', 'a', 'ArrowUp', etc.</span>
+  console.<span class="fn">log</span>(e.code);   <span class="comment">// 'KeyA', 'Enter'</span>
+  <span class="keyword">if</span> (e.key === <span class="string">'Enter'</span>) console.<span class="fn">log</span>(<span class="string">'Enter pressed!'</span>);
+});</code></pre>
+
+    <h2>9.3 Preventing Default Behaviour</h2>
+<pre><code><span class="comment">// Stop a form from submitting (page reload)</span>
+form.<span class="fn">addEventListener</span>(<span class="string">'submit'</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();
+  <span class="comment">// now handle the data yourself</span>
+});
+
+<span class="comment">// Stop a link from navigating</span>
+link.<span class="fn">addEventListener</span>(<span class="string">'click'</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();
+  console.<span class="fn">log</span>(<span class="string">'Navigation blocked'</span>);
+});</code></pre>
+
+    <h2>9.4 Event Delegation</h2>
+    <p>Instead of attaching an event to every child element, attach one listener to the parent. This is more efficient and works for dynamically added elements.</p>
+<pre><code><span class="comment">// Instead of this (bad for large lists):</span>
+<span class="comment">// document.querySelectorAll('li').forEach(li => li.addEventListener(...))</span>
+
+<span class="comment">// Do this (one listener on the parent):</span>
+document.<span class="fn">querySelector</span>(<span class="string">'#list'</span>).<span class="fn">addEventListener</span>(<span class="string">'click'</span>, (e) => {
+  <span class="keyword">if</span> (e.target.matches(<span class="string">'li'</span>)) {
+    console.<span class="fn">log</span>(<span class="string">'Clicked item:'</span>, e.target.textContent);
+  }
+});</code></pre>
+
+    <h2>9.5 Common Events Reference</h2>
+    <table>
+      <thead><tr><th>Category</th><th>Event</th><th>When it fires</th></tr></thead>
+      <tbody>
+        <tr><td>Mouse</td><td><code>click</code>, <code>dblclick</code>, <code>mouseover</code>, <code>mouseout</code></td><td>Mouse interactions</td></tr>
+        <tr><td>Keyboard</td><td><code>keydown</code>, <code>keyup</code>, <code>keypress</code></td><td>Key interactions</td></tr>
+        <tr><td>Form</td><td><code>submit</code>, <code>change</code>, <code>input</code>, <code>focus</code>, <code>blur</code></td><td>Form interactions</td></tr>
+        <tr><td>Window</td><td><code>load</code>, <code>resize</code>, <code>scroll</code></td><td>Browser/page events</td></tr>
+        <tr><td>Touch</td><td><code>touchstart</code>, <code>touchend</code>, <code>touchmove</code></td><td>Mobile touch</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CHAPTER 10 -->
+  <section id="ch10" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 10</div>
+      <h1 class="chapter-title">Forms & Validation</h1>
+      <p class="chapter-desc">Reading form data, responding to user input, and enforcing data integrity.</p>
+    </div>
+
+    <h2>10.1 Reading Form Values</h2>
+<pre><code><span class="tag">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;form</span> id=<span class="string">"signupForm"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> type=<span class="string">"text"</span> id=<span class="string">"username"</span> placeholder=<span class="string">"Username"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;input</span> type=<span class="string">"email"</span> id=<span class="string">"email"</span> placeholder=<span class="string">"Email"</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;button</span> type=<span class="string">"submit"</span><span class="tag">&gt;</span>Sign Up<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></code></pre>
+
+<pre><code><span class="comment">// JavaScript</span>
+<span class="keyword">const</span> <span class="const">form</span> = document.<span class="fn">getElementById</span>(<span class="string">'signupForm'</span>);
+
+form.<span class="fn">addEventListener</span>(<span class="string">'submit'</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();
+
+  <span class="keyword">const</span> <span class="const">username</span> = document.<span class="fn">getElementById</span>(<span class="string">'username'</span>).value.trim();
+  <span class="keyword">const</span> <span class="const">email</span>    = document.<span class="fn">getElementById</span>(<span class="string">'email'</span>).value.trim();
+
+  <span class="comment">// You can also use FormData</span>
+  <span class="keyword">const</span> <span class="const">data</span> = <span class="keyword">new</span> <span class="fn">FormData</span>(form);
+  console.<span class="fn">log</span>(data.<span class="fn">get</span>(<span class="string">'username'</span>));
+});</code></pre>
+
+    <h2>10.2 Validation</h2>
+<pre><code><span class="keyword">function</span> <span class="fn">validate</span>(username, email) {
+  <span class="keyword">const</span> <span class="const">errors</span> = [];
+
+  <span class="keyword">if</span> (!username || username.length &lt; <span class="number">3</span>) {
+    errors.<span class="fn">push</span>(<span class="string">'Username must be at least 3 characters'</span>);
+  }
+
+  <span class="keyword">const</span> <span class="const">emailRegex</span> = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  <span class="keyword">if</span> (!<span class="fn">emailRegex</span>.<span class="fn">test</span>(email)) {
+    errors.<span class="fn">push</span>(<span class="string">'Please enter a valid email'</span>);
+  }
+
+  <span class="keyword">return</span> errors;
+}
+
+<span class="keyword">const</span> <span class="const">errs</span> = <span class="fn">validate</span>(<span class="string">'Jo'</span>, <span class="string">'bad-email'</span>);
+<span class="keyword">if</span> (errs.length > <span class="number">0</span>) {
+  errs.<span class="fn">forEach</span>(e => console.<span class="fn">log</span>(e));
+}</code></pre>
+
+    <div class="tip">HTML5 has built-in validation attributes like <code>required</code>, <code>minlength</code>, <code>pattern</code>, and <code>type="email"</code>. Use these as your first line of defence, then add JS validation for better UX and custom messages.</div>
+  </section>
+
+  <!-- PART III DIVIDER -->
+  <div class="section-divider" style="background: var(--accent2);">
+    <div class="part-label">Part Three</div>
+    <div class="part-title">Modern JavaScript</div>
+  </div>
+
+  <!-- CHAPTER 11 -->
+  <section id="ch11" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 11</div>
+      <h1 class="chapter-title">ES6+ Features</h1>
+      <p class="chapter-desc">The modern JavaScript syntax that makes code cleaner, safer, and more expressive.</p>
+    </div>
+
+    <h2>11.1 Template Literals</h2>
+<pre><code><span class="keyword">const</span> <span class="const">name</span> = <span class="string">'Tosin'</span>;
+<span class="keyword">const</span> <span class="const">role</span> = <span class="string">'developer'</span>;
+
+<span class="comment">// Multi-line strings with expressions</span>
+<span class="keyword">const</span> <span class="const">html</span> = <span class="string">`
+  &lt;div class="card"&gt;
+    &lt;h2&gt;<span class="punct">${</span>name<span class="punct">}</span>&lt;/h2&gt;
+    &lt;p&gt;<span class="punct">${</span>role.toUpperCase()<span class="punct">}</span>&lt;/p&gt;
+    &lt;p&gt;Score: <span class="punct">${</span><span class="number">95</span> * <span class="number">1.1</span><span class="punct">}</span>&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;</code></pre>
+
+    <h2>11.2 Destructuring (Recap + Advanced)</h2>
+<pre><code><span class="comment">// Nested destructuring</span>
+<span class="keyword">const</span> <span class="const">user</span> = {
+  name: <span class="string">'Ada'</span>,
+  address: { city: <span class="string">'Abuja'</span>, zip: <span class="string">'900001'</span> }
+};
+<span class="keyword">const</span> { name, address: { city } } = user;
+console.<span class="fn">log</span>(city); <span class="comment">// 'Abuja'</span>
+
+<span class="comment">// Swap variables</span>
+<span class="keyword">let</span> a = <span class="number">1</span>, b = <span class="number">2</span>;
+[a, b] = [b, a];
+<span class="comment">// a=2, b=1</span></code></pre>
+
+    <h2>11.3 Spread & Rest Operators</h2>
+<pre><code><span class="comment">// Spread in function calls</span>
+<span class="keyword">const</span> <span class="const">nums</span> = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>];
+Math.<span class="fn">max</span>(...nums); <span class="comment">// 5</span>
+
+<span class="comment">// Rest in function params</span>
+<span class="keyword">function</span> <span class="fn">log</span>(level, ...messages) {
+  messages.<span class="fn">forEach</span>(m => console.<span class="fn">log</span>(<span class="string">`[<span class="punct">${</span>level<span class="punct">}</span>] <span class="punct">${</span>m<span class="punct">}</span>`</span>));
+}
+<span class="fn">log</span>(<span class="string">'INFO'</span>, <span class="string">'Server started'</span>, <span class="string">'Listening on 3000'</span>);</code></pre>
+
+    <h2>11.4 Short-circuit Evaluation</h2>
+<pre><code><span class="comment">// && — return right side if left is truthy</span>
+<span class="keyword">const</span> <span class="const">user</span> = { name: <span class="string">'Tosin'</span> };
+<span class="keyword">const</span> <span class="const">label</span> = user && user.name; <span class="comment">// 'Tosin'</span>
+
+<span class="comment">// || — return right side if left is falsy</span>
+<span class="keyword">const</span> <span class="const">port</span> = process?.env?.PORT || <span class="number">3000</span>;
+
+<span class="comment">// Practical: conditional render in template literals</span>
+<span class="keyword">const</span> <span class="const">isAdmin</span> = <span class="keyword">true</span>;
+<span class="keyword">const</span> <span class="const">html</span> = <span class="string">`<span class="punct">${</span>isAdmin && <span class="string">'&lt;button&gt;Delete&lt;/button&gt;'</span><span class="punct">}</span>`</span>;</code></pre>
+
+    <h2>11.5 Map & Set</h2>
+<pre><code><span class="comment">// Map — key-value pairs where keys can be any type</span>
+<span class="keyword">const</span> <span class="const">map</span> = <span class="keyword">new</span> <span class="fn">Map</span>();
+map.<span class="fn">set</span>(<span class="string">'user'</span>, { name: <span class="string">'Tosin'</span> });
+map.<span class="fn">set</span>(<span class="number">42</span>, <span class="string">'the answer'</span>);
+map.<span class="fn">get</span>(<span class="string">'user'</span>); <span class="comment">// { name: 'Tosin' }</span>
+map.size;       <span class="comment">// 2</span>
+
+<span class="comment">// Set — unique values only</span>
+<span class="keyword">const</span> <span class="const">set</span> = <span class="keyword">new</span> <span class="fn">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>]);
+[...set] <span class="comment">// [1, 2, 3]  — duplicates removed!</span>
+
+<span class="comment">// Remove duplicates from an array</span>
+<span class="keyword">const</span> <span class="const">unique</span> = [...<span class="keyword">new</span> <span class="fn">Set</span>([<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>])]; <span class="comment">// [1, 2, 3]</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 12 -->
+  <section id="ch12" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 12</div>
+      <h1 class="chapter-title">Scope & Closures</h1>
+      <p class="chapter-desc">Understanding where variables live and one of JavaScript's most powerful — and misunderstood — features.</p>
+    </div>
+
+    <h2>12.1 Scope</h2>
+    <p>Scope determines where a variable can be accessed in your code.</p>
+<pre><code><span class="comment">// Global scope — accessible everywhere</span>
+<span class="keyword">const</span> <span class="const">SITE_NAME</span> = <span class="string">'MyApp'</span>;
+
+<span class="keyword">function</span> <span class="fn">outer</span>() {
+  <span class="comment">// Function scope</span>
+  <span class="keyword">const</span> <span class="const">outerVar</span> = <span class="string">'I am outer'</span>;
+
+  <span class="keyword">if</span> (<span class="keyword">true</span>) {
+    <span class="comment">// Block scope (let/const only)</span>
+    <span class="keyword">const</span> <span class="const">blockVar</span> = <span class="string">'I am block-scoped'</span>;
+    console.<span class="fn">log</span>(outerVar);  <span class="comment">// ✅ accessible</span>
+  }
+
+  <span class="comment">// console.log(blockVar); ❌ ReferenceError</span>
+}
+
+<span class="comment">// console.log(outerVar); ❌ ReferenceError</span></code></pre>
+
+    <h2>12.2 Closures</h2>
+    <p>A closure is a function that <strong>remembers the variables from its outer scope</strong> even after the outer function has finished executing.</p>
+
+<pre><code><span class="keyword">function</span> <span class="fn">makeCounter</span>() {
+  <span class="keyword">let</span> count = <span class="number">0</span>; <span class="comment">// this is "closed over"</span>
+
+  <span class="keyword">return</span> {
+    <span class="fn">increment</span>() { count++; },
+    <span class="fn">decrement</span>() { count--; },
+    <span class="fn">getCount</span>()  { <span class="keyword">return</span> count; }
+  };
+}
+
+<span class="keyword">const</span> <span class="const">counter</span> = <span class="fn">makeCounter</span>();
+counter.<span class="fn">increment</span>();
+counter.<span class="fn">increment</span>();
+counter.<span class="fn">increment</span>();
+counter.<span class="fn">decrement</span>();
+console.<span class="fn">log</span>(counter.<span class="fn">getCount</span>()); <span class="comment">// 2</span>
+
+<span class="comment">// 'count' is private! It cannot be accessed directly.</span></code></pre>
+
+    <div class="concept">Closures are used everywhere in JavaScript: for data privacy, in callbacks, event handlers, currying, and module patterns. Mastering closures unlocks a deeper level of JavaScript fluency.</div>
+
+    <h2>12.3 Practical Closure Use Cases</h2>
+<pre><code><span class="comment">// 1. Memoisation — cache expensive results</span>
+<span class="keyword">function</span> <span class="fn">memoize</span>(fn) {
+  <span class="keyword">const</span> <span class="const">cache</span> = {};
+  <span class="keyword">return</span> (...args) => {
+    <span class="keyword">const</span> <span class="const">key</span> = JSON.<span class="fn">stringify</span>(args);
+    <span class="keyword">if</span> (cache[key]) <span class="keyword">return</span> cache[key];
+    cache[key] = <span class="fn">fn</span>(...args);
+    <span class="keyword">return</span> cache[key];
+  };
+}
+
+<span class="comment">// 2. Once — a function that runs only once</span>
+<span class="keyword">function</span> <span class="fn">once</span>(fn) {
+  <span class="keyword">let</span> called = <span class="keyword">false</span>;
+  <span class="keyword">return</span> (...args) => {
+    <span class="keyword">if</span> (!called) { called = <span class="keyword">true</span>; <span class="keyword">return</span> <span class="fn">fn</span>(...args); }
+  };
+}
+<span class="keyword">const</span> <span class="const">init</span> = <span class="fn">once</span>(() => console.<span class="fn">log</span>(<span class="string">'Initialised!'</span>));
+<span class="fn">init</span>(); <span class="comment">// "Initialised!"</span>
+<span class="fn">init</span>(); <span class="comment">// nothing</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 13 -->
+  <section id="ch13" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 13</div>
+      <h1 class="chapter-title">Prototypes & Classes</h1>
+      <p class="chapter-desc">Object-oriented programming in JavaScript — blueprints for creating structured, reusable objects.</p>
+    </div>
+
+    <h2>13.1 ES6 Classes</h2>
+<pre><code><span class="keyword">class</span> <span class="const">Animal</span> {
+  <span class="comment">// constructor runs when you use `new`</span>
+  <span class="fn">constructor</span>(name, sound) {
+    <span class="keyword">this</span>.name = name;
+    <span class="keyword">this</span>.sound = sound;
+  }
+
+  <span class="comment">// instance method</span>
+  <span class="fn">speak</span>() {
+    <span class="keyword">return</span> <span class="string">`<span class="punct">${</span><span class="keyword">this</span>.name<span class="punct">}</span> says <span class="punct">${</span><span class="keyword">this</span>.sound<span class="punct">}</span>!`</span>;
+  }
+
+  <span class="comment">// static method — called on the class, not an instance</span>
+  <span class="keyword">static</span> <span class="fn">kingdom</span>() {
+    <span class="keyword">return</span> <span class="string">'Animalia'</span>;
+  }
+}
+
+<span class="keyword">const</span> <span class="const">dog</span> = <span class="keyword">new</span> <span class="fn">Animal</span>(<span class="string">'Dog'</span>, <span class="string">'Woof'</span>);
+dog.<span class="fn">speak</span>();         <span class="comment">// "Dog says Woof!"</span>
+Animal.<span class="fn">kingdom</span>();   <span class="comment">// "Animalia"</span></code></pre>
+
+    <h2>13.2 Inheritance with extends</h2>
+<pre><code><span class="keyword">class</span> <span class="const">Dog</span> <span class="keyword">extends</span> <span class="const">Animal</span> {
+  <span class="fn">constructor</span>(name, breed) {
+    <span class="keyword">super</span>(name, <span class="string">'Woof'</span>); <span class="comment">// call parent constructor</span>
+    <span class="keyword">this</span>.breed = breed;
+  }
+
+  <span class="fn">fetch</span>(item) {
+    <span class="keyword">return</span> <span class="string">`<span class="punct">${</span><span class="keyword">this</span>.name<span class="punct">}</span> fetches the <span class="punct">${</span>item<span class="punct">}</span>!`</span>;
+  }
+
+  <span class="comment">// Override parent method</span>
+  <span class="fn">speak</span>() {
+    <span class="keyword">return</span> <span class="string">`<span class="punct">${</span><span class="keyword">super</span>.<span class="fn">speak</span>()<span class="punct">}</span> (a <span class="punct">${</span><span class="keyword">this</span>.breed<span class="punct">}</span>)`</span>;
+  }
+}
+
+<span class="keyword">const</span> <span class="const">rex</span> = <span class="keyword">new</span> <span class="fn">Dog</span>(<span class="string">'Rex'</span>, <span class="string">'Labrador'</span>);
+rex.<span class="fn">speak</span>();   <span class="comment">// "Rex says Woof! (a Labrador)"</span>
+rex.<span class="fn">fetch</span>(<span class="string">'ball'</span>); <span class="comment">// "Rex fetches the ball!"</span>
+rex <span class="keyword">instanceof</span> Dog;    <span class="comment">// true</span>
+rex <span class="keyword">instanceof</span> Animal; <span class="comment">// true</span></code></pre>
+
+    <h2>13.3 Private Fields (ES2022)</h2>
+<pre><code><span class="keyword">class</span> <span class="const">BankAccount</span> {
+  #balance = <span class="number">0</span>; <span class="comment">// private — only accessible inside the class</span>
+
+  <span class="fn">deposit</span>(amount) {
+    <span class="keyword">if</span> (amount > <span class="number">0</span>) <span class="keyword">this</span>.#balance += amount;
+  }
+
+  <span class="fn">getBalance</span>() {
+    <span class="keyword">return</span> <span class="keyword">this</span>.#balance;
+  }
+}
+
+<span class="keyword">const</span> <span class="const">account</span> = <span class="keyword">new</span> <span class="fn">BankAccount</span>();
+account.<span class="fn">deposit</span>(<span class="number">100</span>);
+account.<span class="fn">getBalance</span>(); <span class="comment">// 100</span>
+<span class="comment">// account.#balance   ❌ SyntaxError</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 14 -->
+  <section id="ch14" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 14</div>
+      <h1 class="chapter-title">Error Handling</h1>
+      <p class="chapter-desc">Anticipating, catching, and recovering from errors gracefully.</p>
+    </div>
+
+    <h2>14.1 try / catch / finally</h2>
+<pre><code><span class="keyword">try</span> {
+  <span class="comment">// Code that might throw an error</span>
+  <span class="keyword">const</span> <span class="const">data</span> = JSON.<span class="fn">parse</span>(<span class="string">'invalid json {'</span>); <span class="comment">// throws!</span>
+  console.<span class="fn">log</span>(data);
+} <span class="keyword">catch</span> (error) {
+  <span class="comment">// Runs if an error was thrown</span>
+  console.<span class="fn">error</span>(<span class="string">'Caught:'</span>, error.message);
+} <span class="keyword">finally</span> {
+  <span class="comment">// Always runs — great for cleanup</span>
+  console.<span class="fn">log</span>(<span class="string">'Done (with or without error)'</span>);
+}</code></pre>
+
+    <h2>14.2 Throwing Custom Errors</h2>
+<pre><code><span class="keyword">function</span> <span class="fn">divide</span>(a, b) {
+  <span class="keyword">if</span> (b === <span class="number">0</span>) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="fn">Error</span>(<span class="string">'Division by zero is not allowed'</span>);
+  }
+  <span class="keyword">return</span> a / b;
+}
+
+<span class="keyword">try</span> {
+  console.<span class="fn">log</span>(<span class="fn">divide</span>(<span class="number">10</span>, <span class="number">0</span>));
+} <span class="keyword">catch</span> (e) {
+  console.<span class="fn">error</span>(e.message); <span class="comment">// "Division by zero is not allowed"</span>
+}</code></pre>
+
+    <h2>14.3 Custom Error Classes</h2>
+<pre><code><span class="keyword">class</span> <span class="const">ValidationError</span> <span class="keyword">extends</span> <span class="const">Error</span> {
+  <span class="fn">constructor</span>(message, field) {
+    <span class="keyword">super</span>(message);
+    <span class="keyword">this</span>.name = <span class="string">'ValidationError'</span>;
+    <span class="keyword">this</span>.field = field;
+  }
+}
+
+<span class="keyword">function</span> <span class="fn">validateAge</span>(age) {
+  <span class="keyword">if</span> (age &lt; <span class="number">0</span> || age > <span class="number">120</span>) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="fn">ValidationError</span>(<span class="string">'Age must be 0–120'</span>, <span class="string">'age'</span>);
+  }
+}
+
+<span class="keyword">try</span> {
+  <span class="fn">validateAge</span>(-<span class="number">5</span>);
+} <span class="keyword">catch</span> (e) {
+  <span class="keyword">if</span> (e <span class="keyword">instanceof</span> ValidationError) {
+    console.<span class="fn">log</span>(<span class="string">`Field "<span class="punct">${</span>e.field<span class="punct">}</span>": <span class="punct">${</span>e.message<span class="punct">}</span>`</span>);
+  }
+}</code></pre>
+  </section>
+
+  <!-- PART IV DIVIDER -->
+  <div class="section-divider" style="background: #1a1814;">
+    <div class="part-label">Part Four</div>
+    <div class="part-title">Asynchronous JavaScript</div>
+  </div>
+
+  <!-- CHAPTER 15 -->
+  <section id="ch15" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 15</div>
+      <h1 class="chapter-title">Callbacks & Promises</h1>
+      <p class="chapter-desc">Handling operations that take time — from the old callback pattern to the clean Promise API.</p>
+    </div>
+
+    <h2>15.1 The Problem: Async Operations</h2>
+    <p>JavaScript is single-threaded. Operations like network requests, file reads, or timers take time. If they blocked execution, the whole page would freeze. JavaScript uses an <strong>event loop</strong> to handle these asynchronously.</p>
+
+<pre><code>console.<span class="fn">log</span>(<span class="string">'1'</span>);
+
+<span class="fn">setTimeout</span>(() => {
+  console.<span class="fn">log</span>(<span class="string">'2'</span>); <span class="comment">// runs after current stack clears</span>
+}, <span class="number">0</span>);
+
+console.<span class="fn">log</span>(<span class="string">'3'</span>);
+
+<span class="comment">// Output: 1, 3, 2</span></code></pre>
+
+    <h2>15.2 Callbacks (the old way)</h2>
+<pre><code><span class="keyword">function</span> <span class="fn">fetchData</span>(id, callback) {
+  <span class="fn">setTimeout</span>(() => {
+    <span class="keyword">const</span> <span class="const">data</span> = { id, name: <span class="string">'User'</span> };
+    <span class="fn">callback</span>(<span class="keyword">null</span>, data); <span class="comment">// Node.js convention: (error, result)</span>
+  }, <span class="number">1000</span>);
+}
+
+<span class="fn">fetchData</span>(<span class="number">1</span>, (err, data) => {
+  <span class="keyword">if</span> (err) <span class="keyword">return</span> console.<span class="fn">error</span>(err);
+  console.<span class="fn">log</span>(data);
+});
+
+<span class="comment">// Problem: Callback Hell (Pyramid of Doom)</span>
+<span class="fn">fetchUser</span>(id, (err, user) => {
+  <span class="fn">fetchPosts</span>(user.id, (err, posts) => {
+    <span class="fn">fetchComments</span>(posts[<span class="number">0</span>].id, (err, comments) => {
+      <span class="comment">// deeply nested, hard to read</span>
+    });
+  });
+});</code></pre>
+
+    <h2>15.3 Promises</h2>
+    <p>A Promise represents a value that will be available in the future. It can be <em>pending</em>, <em>fulfilled</em>, or <em>rejected</em>.</p>
+
+<pre><code><span class="comment">// Creating a promise</span>
+<span class="keyword">function</span> <span class="fn">delay</span>(ms) {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="fn">Promise</span>((resolve, reject) => {
+    <span class="fn">setTimeout</span>(resolve, ms);
+  });
+}
+
+<span class="comment">// Consuming a promise</span>
+<span class="fn">delay</span>(<span class="number">1000</span>)
+  .<span class="fn">then</span>(() => console.<span class="fn">log</span>(<span class="string">'1 second later!'</span>))
+  .<span class="fn">catch</span>(err => console.<span class="fn">error</span>(err))
+  .<span class="fn">finally</span>(() => console.<span class="fn">log</span>(<span class="string">'Done'</span>));</code></pre>
+
+    <h2>15.4 Promise Chaining</h2>
+<pre><code><span class="fn">fetchUser</span>(<span class="number">1</span>)
+  .<span class="fn">then</span>(user => <span class="fn">fetchPosts</span>(user.id))
+  .<span class="fn">then</span>(posts => <span class="fn">fetchComments</span>(posts[<span class="number">0</span>].id))
+  .<span class="fn">then</span>(comments => console.<span class="fn">log</span>(comments))
+  .<span class="fn">catch</span>(err => console.<span class="fn">error</span>(<span class="string">'Something failed:'</span>, err));</code></pre>
+
+    <h2>15.5 Promise.all, Promise.race, Promise.allSettled</h2>
+<pre><code><span class="comment">// Run multiple promises in parallel — wait for ALL</span>
+<span class="keyword">const</span> [users, posts] = <span class="keyword">await</span> Promise.<span class="fn">all</span>([
+  <span class="fn">fetch</span>(<span class="string">'/api/users'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>()),
+  <span class="fn">fetch</span>(<span class="string">'/api/posts'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>()),
+]);
+
+<span class="comment">// Finish as soon as the FIRST settles</span>
+<span class="keyword">const</span> <span class="const">fastest</span> = <span class="keyword">await</span> Promise.<span class="fn">race</span>([p1, p2, p3]);
+
+<span class="comment">// Wait for ALL — don't throw if one fails</span>
+<span class="keyword">const</span> <span class="const">results</span> = <span class="keyword">await</span> Promise.<span class="fn">allSettled</span>([p1, p2, p3]);
+results.<span class="fn">forEach</span>(r => {
+  <span class="keyword">if</span> (r.status === <span class="string">'fulfilled'</span>) console.<span class="fn">log</span>(r.value);
+  <span class="keyword">else</span> console.<span class="fn">error</span>(r.reason);
+});</code></pre>
+  </section>
+
+  <!-- CHAPTER 16 -->
+  <section id="ch16" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 16</div>
+      <h1 class="chapter-title">Async / Await</h1>
+      <p class="chapter-desc">Syntactic sugar over Promises — write asynchronous code that reads like synchronous code.</p>
+    </div>
+
+    <h2>16.1 The async / await Syntax</h2>
+<pre><code><span class="comment">// Mark the function with `async`</span>
+<span class="keyword">async function</span> <span class="fn">getUser</span>(id) {
+  <span class="comment">// `await` pauses here until the promise resolves</span>
+  <span class="keyword">const</span> <span class="const">user</span> = <span class="keyword">await</span> <span class="fn">fetchUser</span>(id);
+  <span class="keyword">const</span> <span class="const">posts</span> = <span class="keyword">await</span> <span class="fn">fetchPosts</span>(user.id);
+
+  <span class="keyword">return</span> { user, posts };
+}
+
+<span class="comment">// Arrow function form</span>
+<span class="keyword">const</span> <span class="const">getData</span> = <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> <span class="const">data</span> = <span class="keyword">await</span> <span class="fn">someAsyncOp</span>();
+  <span class="keyword">return</span> data;
+};</code></pre>
+
+    <div class="concept">An <code>async</code> function always returns a Promise, even if you return a plain value. <code>await</code> can only be used inside an <code>async</code> function (or at the top level of a module in modern environments).</div>
+
+    <h2>16.2 Error Handling with async/await</h2>
+<pre><code><span class="keyword">async function</span> <span class="fn">loadData</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> <span class="const">response</span> = <span class="keyword">await</span> <span class="fn">fetch</span>(<span class="string">'/api/data'</span>);
+
+    <span class="keyword">if</span> (!response.ok) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="fn">Error</span>(<span class="string">`HTTP error: <span class="punct">${</span>response.status<span class="punct">}</span>`</span>);
+    }
+
+    <span class="keyword">const</span> <span class="const">data</span> = <span class="keyword">await</span> response.<span class="fn">json</span>();
+    <span class="keyword">return</span> data;
+  } <span class="keyword">catch</span> (error) {
+    console.<span class="fn">error</span>(<span class="string">'Failed to load:'</span>, error.message);
+    <span class="keyword">throw</span> error; <span class="comment">// re-throw if caller needs to handle it</span>
+  }
+}</code></pre>
+
+    <h2>16.3 Parallel vs Sequential</h2>
+<pre><code><span class="comment">// ❌ Sequential — slow, waits for each one</span>
+<span class="keyword">const</span> <span class="const">user</span>  = <span class="keyword">await</span> <span class="fn">fetchUser</span>();   <span class="comment">// 1s</span>
+<span class="keyword">const</span> <span class="const">posts</span> = <span class="keyword">await</span> <span class="fn">fetchPosts</span>();  <span class="comment">// 1s — total: 2s</span>
+
+<span class="comment">// ✅ Parallel — fast, both run at the same time</span>
+<span class="keyword">const</span> [user, posts] = <span class="keyword">await</span> Promise.<span class="fn">all</span>([
+  <span class="fn">fetchUser</span>(),
+  <span class="fn">fetchPosts</span>()
+]); <span class="comment">// total: ~1s</span></code></pre>
+  </section>
+
+  <!-- CHAPTER 17 -->
+  <section id="ch17" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 17</div>
+      <h1 class="chapter-title">Fetch API</h1>
+      <p class="chapter-desc">Communicating with servers — GET, POST, and handling real-world API responses.</p>
+    </div>
+
+    <h2>17.1 GET Request</h2>
+<pre><code><span class="keyword">async function</span> <span class="fn">getUsers</span>() {
+  <span class="keyword">const</span> <span class="const">response</span> = <span class="keyword">await</span> <span class="fn">fetch</span>(<span class="string">'https://jsonplaceholder.typicode.com/users'</span>);
+
+  <span class="keyword">if</span> (!response.ok) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="fn">Error</span>(<span class="string">`Error: <span class="punct">${</span>response.status<span class="punct">}</span>`</span>);
+  }
+
+  <span class="keyword">const</span> <span class="const">users</span> = <span class="keyword">await</span> response.<span class="fn">json</span>(); <span class="comment">// parse JSON body</span>
+  <span class="keyword">return</span> users;
+}</code></pre>
+
+    <h2>17.2 POST Request (sending data)</h2>
+<pre><code><span class="keyword">async function</span> <span class="fn">createPost</span>(title, body) {
+  <span class="keyword">const</span> <span class="const">response</span> = <span class="keyword">await</span> <span class="fn">fetch</span>(<span class="string">'https://jsonplaceholder.typicode.com/posts'</span>, {
+    method: <span class="string">'POST'</span>,
+    headers: {
+      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+      <span class="string">'Authorization'</span>: <span class="string">'Bearer my-token'</span>
+    },
+    body: JSON.<span class="fn">stringify</span>({ title, body, userId: <span class="number">1</span> })
+  });
+
+  <span class="keyword">const</span> <span class="const">newPost</span> = <span class="keyword">await</span> response.<span class="fn">json</span>();
+  console.<span class="fn">log</span>(newPost); <span class="comment">// { id: 101, title: ..., body: ... }</span>
+}</code></pre>
+
+    <h2>17.3 A Reusable HTTP Utility</h2>
+<pre><code><span class="keyword">const</span> <span class="const">http</span> = {
+  <span class="keyword">async</span> <span class="fn">get</span>(url) {
+    <span class="keyword">const</span> <span class="const">res</span> = <span class="keyword">await</span> <span class="fn">fetch</span>(url);
+    <span class="keyword">if</span> (!res.ok) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="fn">Error</span>(res.statusText);
+    <span class="keyword">return</span> res.<span class="fn">json</span>();
+  },
+
+  <span class="keyword">async</span> <span class="fn">post</span>(url, data) {
+    <span class="keyword">const</span> <span class="const">res</span> = <span class="keyword">await</span> <span class="fn">fetch</span>(url, {
+      method: <span class="string">'POST'</span>,
+      headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+      body: JSON.<span class="fn">stringify</span>(data)
+    });
+    <span class="keyword">if</span> (!res.ok) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="fn">Error</span>(res.statusText);
+    <span class="keyword">return</span> res.<span class="fn">json</span>();
+  }
+};
+
+<span class="comment">// Usage</span>
+<span class="keyword">const</span> <span class="const">users</span> = <span class="keyword">await</span> http.<span class="fn">get</span>(<span class="string">'/api/users'</span>);
+<span class="keyword">const</span> <span class="const">post</span>  = <span class="keyword">await</span> http.<span class="fn">post</span>(<span class="string">'/api/posts'</span>, { title: <span class="string">'Hello'</span> });</code></pre>
+
+    <h2>17.4 Updating the DOM with Fetched Data</h2>
+<pre><code><span class="keyword">async function</span> <span class="fn">renderUsers</span>() {
+  <span class="keyword">const</span> <span class="const">list</span> = document.<span class="fn">querySelector</span>(<span class="string">'#user-list'</span>);
+  list.innerHTML = <span class="string">'&lt;p&gt;Loading...&lt;/p&gt;'</span>;
+
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> <span class="const">users</span> = <span class="keyword">await</span> http.<span class="fn">get</span>(<span class="string">'/api/users'</span>);
+    list.innerHTML = users
+      .<span class="fn">map</span>(u => <span class="string">`&lt;li&gt;&lt;strong&gt;<span class="punct">${</span>u.name<span class="punct">}</span>&lt;/strong&gt; — <span class="punct">${</span>u.email<span class="punct">}</span>&lt;/li&gt;`</span>)
+      .<span class="fn">join</span>(<span class="string">''</span>);
+  } <span class="keyword">catch</span> (e) {
+    list.innerHTML = <span class="string">`&lt;p class="error"&gt;<span class="punct">${</span>e.message<span class="punct">}</span>&lt;/p&gt;`</span>;
+  }
+}</code></pre>
+  </section>
+
+  <!-- PART V DIVIDER -->
+  <div class="section-divider" style="background: var(--gold); color: var(--ink);">
+    <div class="part-label" style="color: rgba(0,0,0,0.5);">Part Five</div>
+    <div class="part-title">Advanced Topics</div>
+  </div>
+
+  <!-- CHAPTER 18 -->
+  <section id="ch18" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 18</div>
+      <h1 class="chapter-title">Modules (ESM)</h1>
+      <p class="chapter-desc">Organising large codebases by splitting code into reusable, encapsulated files.</p>
+    </div>
+
+    <h2>18.1 Exporting</h2>
+<pre><code><span class="comment">// math.js</span>
+<span class="keyword">export const</span> <span class="const">PI</span> = <span class="number">3.14159</span>;
+
+<span class="keyword">export function</span> <span class="fn">add</span>(a, b) { <span class="keyword">return</span> a + b; }
+<span class="keyword">export function</span> <span class="fn">multiply</span>(a, b) { <span class="keyword">return</span> a * b; }
+
+<span class="comment">// Default export — one per file</span>
+<span class="keyword">export default function</span> <span class="fn">subtract</span>(a, b) { <span class="keyword">return</span> a - b; }</code></pre>
+
+    <h2>18.2 Importing</h2>
+<pre><code><span class="comment">// Named imports</span>
+<span class="keyword">import</span> { PI, add, multiply } <span class="keyword">from</span> <span class="string">'./math.js'</span>;
+
+<span class="comment">// Default import (name your own)</span>
+<span class="keyword">import</span> subtract <span class="keyword">from</span> <span class="string">'./math.js'</span>;
+
+<span class="comment">// Import all as namespace</span>
+<span class="keyword">import</span> * as Math <span class="keyword">from</span> <span class="string">'./math.js'</span>;
+Math.<span class="fn">add</span>(<span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 5</span>
+
+<span class="comment">// Dynamic import (lazy loading)</span>
+<span class="keyword">const</span> { <span class="fn">heavyFunction</span> } = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">'./heavy.js'</span>);</code></pre>
+
+    <div class="tip">Always use <code>type="module"</code> on your script tag when using ES modules: <code>&lt;script type="module" src="app.js"&gt;&lt;/script&gt;</code>. Modules are automatically deferred and have their own scope.</div>
+
+    <h2>18.3 Module Patterns</h2>
+<pre><code><span class="comment">// api.js — single responsibility module</span>
+<span class="keyword">const</span> <span class="const">BASE_URL</span> = <span class="string">'/api'</span>;
+
+<span class="keyword">export async function</span> <span class="fn">fetchUsers</span>() {
+  <span class="keyword">return</span> <span class="fn">fetch</span>(<span class="string">`<span class="punct">${</span>BASE_URL<span class="punct">}</span>/users`</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+}
+
+<span class="keyword">export async function</span> <span class="fn">createUser</span>(data) {
+  <span class="keyword">return</span> <span class="fn">fetch</span>(<span class="string">`<span class="punct">${</span>BASE_URL<span class="punct">}</span>/users`</span>, {
+    method: <span class="string">'POST'</span>,
+    headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> },
+    body: JSON.<span class="fn">stringify</span>(data)
+  }).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+}</code></pre>
+  </section>
+
+  <!-- CHAPTER 19 -->
+  <section id="ch19" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 19</div>
+      <h1 class="chapter-title">Web Storage & Cookies</h1>
+      <p class="chapter-desc">Persisting data in the browser across page loads and sessions.</p>
+    </div>
+
+    <h2>19.1 localStorage</h2>
+    <p>Persists indefinitely (until manually cleared). Up to ~5MB per origin.</p>
+<pre><code><span class="comment">// Storing (must serialize to string)</span>
+localStorage.<span class="fn">setItem</span>(<span class="string">'theme'</span>, <span class="string">'dark'</span>);
+localStorage.<span class="fn">setItem</span>(<span class="string">'user'</span>, JSON.<span class="fn">stringify</span>({ name: <span class="string">'Tosin'</span>, role: <span class="string">'admin'</span> }));
+
+<span class="comment">// Reading</span>
+<span class="keyword">const</span> <span class="const">theme</span> = localStorage.<span class="fn">getItem</span>(<span class="string">'theme'</span>); <span class="comment">// 'dark'</span>
+<span class="keyword">const</span> <span class="const">user</span> = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="string">'user'</span>));
+
+<span class="comment">// Removing</span>
+localStorage.<span class="fn">removeItem</span>(<span class="string">'theme'</span>);
+localStorage.<span class="fn">clear</span>(); <span class="comment">// remove everything</span></code></pre>
+
+    <h2>19.2 sessionStorage</h2>
+    <p>Same API as <code>localStorage</code>, but data is cleared when the browser tab is closed.</p>
+<pre><code>sessionStorage.<span class="fn">setItem</span>(<span class="string">'step'</span>, <span class="string">'2'</span>);
+sessionStorage.<span class="fn">getItem</span>(<span class="string">'step'</span>); <span class="comment">// '2'</span></code></pre>
+
+    <h2>19.3 A Type-Safe Storage Utility</h2>
+<pre><code><span class="keyword">const</span> <span class="const">storage</span> = {
+  <span class="fn">get</span>(key, fallback = <span class="keyword">null</span>) {
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> <span class="const">val</span> = localStorage.<span class="fn">getItem</span>(key);
+      <span class="keyword">return</span> val ? JSON.<span class="fn">parse</span>(val) : fallback;
+    } <span class="keyword">catch</span> { <span class="keyword">return</span> fallback; }
+  },
+  <span class="fn">set</span>(key, value) {
+    localStorage.<span class="fn">setItem</span>(key, JSON.<span class="fn">stringify</span>(value));
+  },
+  <span class="fn">remove</span>(key) {
+    localStorage.<span class="fn">removeItem</span>(key);
+  }
+};
+
+<span class="comment">// Usage</span>
+storage.<span class="fn">set</span>(<span class="string">'prefs'</span>, { theme: <span class="string">'dark'</span>, lang: <span class="string">'en'</span> });
+<span class="keyword">const</span> <span class="const">prefs</span> = storage.<span class="fn">get</span>(<span class="string">'prefs'</span>, { theme: <span class="string">'light'</span> });</code></pre>
+
+    <h2>19.4 Cookies</h2>
+<pre><code><span class="comment">// Set a cookie (expires in 7 days)</span>
+document.cookie = <span class="string">"token=abc123; max-age=604800; path=/; Secure; SameSite=Strict"</span>;
+
+<span class="comment">// Read cookies (returns all as a string)</span>
+console.<span class="fn">log</span>(document.cookie); <span class="comment">// "token=abc123"</span>
+
+<span class="comment">// Helper to read a specific cookie</span>
+<span class="keyword">function</span> <span class="fn">getCookie</span>(name) {
+  <span class="keyword">return</span> document.cookie
+    .<span class="fn">split</span>(<span class="string">';'</span>)
+    .<span class="fn">find</span>(c => c.trim().<span class="fn">startsWith</span>(name + <span class="string">'='</span>))
+    ?.<span class="fn">split</span>(<span class="string">'='</span>)[<span class="number">1</span>];
+}</code></pre>
+
+    <table>
+      <thead><tr><th>Feature</th><th>localStorage</th><th>sessionStorage</th><th>Cookies</th></tr></thead>
+      <tbody>
+        <tr><td>Capacity</td><td>~5MB</td><td>~5MB</td><td>~4KB</td></tr>
+        <tr><td>Expiry</td><td>Never</td><td>Tab close</td><td>Custom</td></tr>
+        <tr><td>Sent to server?</td><td>No</td><td>No</td><td>Yes (on every request)</td></tr>
+        <tr><td>Accessible via JS?</td><td>Yes</td><td>Yes</td><td>Yes (unless HttpOnly)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CHAPTER 20 -->
+  <section id="ch20" class="page">
+    <div class="chapter-header">
+      <div class="chapter-number">Chapter 20</div>
+      <h1 class="chapter-title">Performance & Best Practices</h1>
+      <p class="chapter-desc">Writing code that is fast, readable, and maintainable at scale.</p>
+    </div>
+
+    <h2>20.1 Debounce & Throttle</h2>
+    <p>Limit how often expensive functions run in response to frequent events.</p>
+<pre><code><span class="comment">// Debounce — only runs AFTER the user stops triggering for `delay` ms</span>
+<span class="comment">// Use case: search-as-you-type, resize handlers</span>
+<span class="keyword">function</span> <span class="fn">debounce</span>(fn, delay) {
+  <span class="keyword">let</span> timer;
+  <span class="keyword">return</span> (...args) => {
+    <span class="fn">clearTimeout</span>(timer);
+    timer = <span class="fn">setTimeout</span>(() => <span class="fn">fn</span>(...args), delay);
+  };
+}
+
+<span class="keyword">const</span> <span class="const">search</span> = <span class="fn">debounce</span>((query) => <span class="fn">fetchResults</span>(query), <span class="number">400</span>);
+input.<span class="fn">addEventListener</span>(<span class="string">'input'</span>, e => <span class="fn">search</span>(e.target.value));
+
+<span class="comment">// Throttle — runs at most once every `limit` ms</span>
+<span class="comment">// Use case: scroll events, infinite scroll, analytics</span>
+<span class="keyword">function</span> <span class="fn">throttle</span>(fn, limit) {
+  <span class="keyword">let</span> inThrottle;
+  <span class="keyword">return</span> (...args) => {
+    <span class="keyword">if</span> (!inThrottle) {
+      <span class="fn">fn</span>(...args);
+      inThrottle = <span class="keyword">true</span>;
+      <span class="fn">setTimeout</span>(() => inThrottle = <span class="keyword">false</span>, limit);
+    }
+  };
+}</code></pre>
+
+    <h2>20.2 DOM Performance</h2>
+<pre><code><span class="comment">// ❌ Slow — multiple reflows</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) {
+  document.body.<span class="fn">appendChild</span>(document.<span class="fn">createElement</span>(<span class="string">'div'</span>));
+}
+
+<span class="comment">// ✅ Fast — single reflow with DocumentFragment</span>
+<span class="keyword">const</span> <span class="const">fragment</span> = document.<span class="fn">createDocumentFragment</span>();
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) {
+  fragment.<span class="fn">appendChild</span>(document.<span class="fn">createElement</span>(<span class="string">'div'</span>));
+}
+document.body.<span class="fn">appendChild</span>(fragment);</code></pre>
+
+    <h2>20.3 Code Quality Practices</h2>
+<pre><code><span class="comment">// 1. Use meaningful names</span>
+<span class="comment">// ❌ const x = users.filter(u => u.a > 18);</span>
+<span class="keyword">const</span> <span class="const">adultUsers</span> = users.<span class="fn">filter</span>(user => user.age > <span class="number">18</span>);
+
+<span class="comment">// 2. Avoid magic numbers — use named constants</span>
+<span class="keyword">const</span> <span class="const">MIN_VOTING_AGE</span> = <span class="number">18</span>;
+users.<span class="fn">filter</span>(user => user.age >= MIN_VOTING_AGE);
+
+<span class="comment">// 3. Early returns to reduce nesting</span>
+<span class="keyword">function</span> <span class="fn">processOrder</span>(order) {
+  <span class="keyword">if</span> (!order) <span class="keyword">return</span> <span class="keyword">null</span>;           <span class="comment">// guard clauses</span>
+  <span class="keyword">if</span> (!order.items.length) <span class="keyword">return</span> <span class="keyword">null</span>;
+  <span class="comment">// happy path here, not nested</span>
+  <span class="keyword">return</span> <span class="fn">calculateTotal</span>(order);
+}
+
+<span class="comment">// 4. Keep functions small and focused (Single Responsibility)</span>
+<span class="comment">// One function = one job</span>
+
+<span class="comment">// 5. Use const everywhere, let only when needed</span>
+<span class="comment">// Never use var</span></code></pre>
+
+    <h2>20.4 Immutability Patterns</h2>
+<pre><code><span class="comment">// Don't mutate — create new values</span>
+<span class="keyword">const</span> <span class="const">state</span> = { count: 0, items: [<span class="string">'a'</span>, <span class="string">'b'</span>] };
+
+<span class="comment">// ❌ Mutation</span>
+<span class="comment">// state.count = 1;  state.items.push('c');</span>
+
+<span class="comment">// ✅ Immutable update</span>
+<span class="keyword">const</span> <span class="const">newState</span> = {
+  ...state,
+  count: state.count + <span class="number">1</span>,
+  items: [...state.items, <span class="string">'c'</span>]
+};</code></pre>
+
+    <h2>20.5 Quick Reference: Modern JS Checklist</h2>
+    <table>
+      <thead><tr><th>Practice</th><th>Do</th><th>Don't</th></tr></thead>
+      <tbody>
+        <tr><td>Variables</td><td><code>const</code> / <code>let</code></td><td><code>var</code></td></tr>
+        <tr><td>Equality</td><td><code>===</code></td><td><code>==</code></td></tr>
+        <tr><td>Async</td><td><code>async/await</code></td><td>Callback hell</td></tr>
+        <tr><td>Strings</td><td>Template literals</td><td>String concatenation</td></tr>
+        <tr><td>Objects</td><td>Spread / destructuring</td><td><code>Object.assign</code> mutations</td></tr>
+        <tr><td>Loops</td><td><code>for...of</code>, <code>.map()</code></td><td>Manual index loops</td></tr>
+        <tr><td>Errors</td><td><code>try/catch</code> around async</td><td>Silent failures</td></tr>
+        <tr><td>HTML injection</td><td><code>textContent</code></td><td><code>innerHTML</code> with user data</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top: 3rem; padding: 2rem; background: var(--ink); color: var(--paper); border-radius: 6px;">
+      <p style="font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--gold);">What's Next?</p>
+      <p style="color: #b0a898; margin-bottom: 0;">You've covered the full journey from variables to async programming. From here, deepen your knowledge with the <strong style="color: white;">DOM APIs</strong> (IntersectionObserver, Web Animations, Canvas), explore <strong style="color: white;">TypeScript</strong> for type safety, dive into <strong style="color: white;">React, Vue, or Svelte</strong> for component-based UIs, and study <strong style="color: white;">Node.js</strong> to run JavaScript on the server.</p>
+    </div>
+  </section>
+
+</div><!-- /main -->
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('progress');
+    const total = document.body.scrollHeight - window.innerHeight;
+    el.style.width = (window.scrollY / total * 100) + '%';
+  });
+
+  // Sidebar active link highlighting
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('#sidebar a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`#sidebar a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Mobile sidebar toggle
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  document.addEventListener('click', (e) => {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('menu-toggle');
+    if (!sidebar.contains(e.target) && e.target !== toggle && window.innerWidth <= 900) {
+      sidebar.classList.remove('open');
+    }
+  });
+
+  // Close sidebar on nav link click (mobile)
+  navLinks.forEach(a => {
+    a.addEventListener('click', () => {
+      if (window.innerWidth <= 900) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    });
+  });
+</script>
+</body>
+</html>
