@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <title>Tosin Adewale | Software Developer</title>
 </head>
@@ -11,11 +12,11 @@
       <section>
         <div class="hero-container">
             <img src="" alt="profile picture">
-            <h1>Hi, I'm Tosin Adewale</h1>
+            <h1 id="hero-title"></h1>
             <h2>Software Developer</h2>
             <p>Crafting elegant solutions with modern technologies. Passionate about building scalable web applications and creating exceptional user experiences.</p>
             <div>
-                <a href="projects.html" target="_blank" class="btn">View My Work</a>
+                <a href="projects.html" target="_blank" class="btn">My Work</a>
                 <a href="contact.html" target="_blank" class="btn">Contact Me</a>
             </div>
         </div>
@@ -83,6 +84,40 @@
             </div>
 
         </div>
+
+        <!-- ============TODAY TRY ANother way to do the about me cards with display flex and flex wrap=================== -->
+         <div class="aboutme-cards3" style="border: 2px solid green;">
+            <div class="card" style="border: 2px solid yellow;">
+                <img src="" alt="icons" >
+                <h3>Clean Code</h3>
+                <p>Writing maintainable and scalable code with best practices.</p>
+            </div>
+
+            <div class="card" style="border: 2px solid yellow;">
+                <img src="" alt="icons" >
+                <h3>Full Stack</h3>
+                <p>Expertise in both frontend and backend technologies</p>
+            </div>
+
+            <div class="card" style="border: 2px solid yellow;">
+                <img src="" alt="icons" >
+                <h3>UI/UX Focus</h3>
+                <p>Creating intuitive and user-friendly interfaces.</p>
+            </div>
+
+            <div class="card" style="border: 2px solid yellow;">
+                <img src="" alt="icons" >
+                <h3>Performance</h3>
+                <p>Optimizing applications for speed and efficiency.</p>
+            </div>
+
+            <!-- <div class="card" style="border: 2px solid yellow;">
+                <img src="" alt="icons" >
+                <h3>Performance</h3>
+                <p>Optimizing applications for speed and efficiency.</p>
+            </div> -->
+
+        </div>
         
      </section>
 
@@ -109,6 +144,7 @@
                 </ul>
             </div>
         </div>
+
         <div class="skills_box-container" style="border: 2px solid red;">
             <div class="skills-list" style="border: 2px solid blue;">
                 <h3>Database</h3>
@@ -236,9 +272,37 @@
 
 
         <!-- ===================Footer Section=================== -->
-    <footer>
+    <!-- <footer>
         <p>&copy; 2026 Tosin Adewale. Designed & built with ❤️. All rights reserved.</p>
+    </footer> -->
+     <footer>
+      <div className="footer-container">
+        <div className="content-box">
+          <div className="icons-box">
+            <a href="https://github.com" className="hover:text-blue-400 transition-colors duration-300">
+              <Github size={24} />
+            </a>
+            <a href="https://linkedin.com" className="hover:text-blue-400 transition-colors duration-300">
+              <Linkedin size={24} />
+            </a>
+            <a href="mailto:john@example.com" className="hover:text-blue-400 transition-colors duration-300">
+              <Mail size={24} />
+            </a>
+          </div>
+
+          <p className="text-slate-400 text-center flex items-center gap-2">
+            Made with <Heart size={16} className="text-red-500 fill-red-500" /> by John Developer
+          </p>
+
+          <p className="text-slate-500 text-sm">
+            © 2026 All rights reserved.
+          </p>
+        </div>
+      </div>
     </footer>
-    
+
+
+
+    <script src="script.js"></script>
 </body>
 </html>

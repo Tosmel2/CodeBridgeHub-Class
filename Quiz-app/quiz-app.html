@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuizCraft — Interactive Learning Platform</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
+<!-- ===================== LANDING ===================== -->
+<div class="screen active" id="screen-landing" style="position:relative; overflow:hidden;">
+  <div class="hero-grid"></div>
+  <div class="container-sm" style="text-align:center; position:relative; z-index:1;">
+    <div class="anim-up" style="animation-delay:0.05s">
+    </div>
+    <div class="anim-up" style="animation-delay:0.1s">
+      <h1 class="display" style="margin-bottom:1.25rem;">
+        The smartest way to<br><em>learn & teach.</em>
+      </h1>
+    </div>
+    <div class="anim-up" style="animation-delay:0.18s">
+      <p class="body" style="max-width: 380px; margin: 0 auto 2.5rem;">
+        Build quizzes in minutes, track learner progress in real-time, and ace every topic with timed practice sessions.
+      </p>
+    </div>
+    <div class="anim-up" style="animation-delay:0.25s; display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+      <button class="btn btn-primary btn-lg" onclick="goTo('screen-role')">
+        Get Started
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="btn btn-ghost btn-lg" onclick="demoPreview()">See Demo</button>
+    </div>
+
+    <div class="anim-up" style="animation-delay:0.35s; margin-top: 4rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;">
+      <div class="card glass card-sm" style="text-align:left;">
+        <div style="font-size:1.4rem; margin-bottom:0.5rem;">⏱</div>
+        <div style="font-size:0.88rem; font-weight:600; margin-bottom:2px;">Timed Quizzes</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Per-quiz countdown timer</div>
+      </div>
+      <div class="card glass card-sm" style="text-align:left;">
+        <div style="font-size:1.4rem; margin-bottom:0.5rem;">📊</div>
+        <div style="font-size:0.88rem; font-weight:600; margin-bottom:2px;">Live Results</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Instant score breakdown</div>
+      </div>
+      <div class="card glass card-sm" style="text-align:left;">
+        <div style="font-size:1.4rem; margin-bottom:0.5rem;">🎯</div>
+        <div style="font-size:0.88rem; font-weight:600; margin-bottom:2px;">Custom Topics</div>
+        <div style="font-size:0.78rem; color:var(--muted);">Build any subject</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ROLE SELECT ===================== -->
+<div class="screen" id="screen-role">
+  <div class="container-sm anim-up">
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <h2 class="heading" style="margin-bottom:0.5rem;">Who are you?</h2>
+      <p class="body">Choose your role to continue</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <button class="card" onclick="enterAdmin()" style="cursor:pointer; border:none; text-align:left; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(200,240,96,0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.13)'; this.style.transform='none'">
+        <div style="font-size:2rem; margin-bottom:1rem;">🛠</div>
+        <div style="font-weight:600; font-size:1.05rem; margin-bottom:0.4rem; font-family:var(--serif);">Admin</div>
+        <div class="body" style="font-size:0.82rem;">Create & manage quizzes, add questions, set time limits</div>
+        <div class="badge badge-accent" style="margin-top:1rem;">Educator</div>
+      </button>
+      <button class="card" onclick="enterStudent()" style="cursor:pointer; border:none; text-align:left; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(123,110,246,0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.13)'; this.style.transform='none'">
+        <div style="font-size:2rem; margin-bottom:1rem;">🎓</div>
+        <div style="font-weight:600; font-size:1.05rem; margin-bottom:0.4rem; font-family:var(--serif);">Student</div>
+        <div class="body" style="font-size:0.82rem;">Take quizzes, track your progress, review answers</div>
+        <div class="badge badge-purple" style="margin-top:1rem;">Learner</div>
+      </button>
+    </div>
+    <div style="text-align:center; margin-top:1.5rem;">
+      <button class="btn btn-ghost btn-sm" onclick="goTo('screen-landing')">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN DASHBOARD ===================== -->
+<div class="screen" id="screen-admin" style="align-items:flex-start; padding-top:80px;">
+  <nav class="nav">
+    <div class="nav-logo"><span class="nav-dot"></span>QuizCraft <span style="color:var(--muted); font-size:0.75rem; font-weight:400; margin-left:4px;">Admin</span></div>
+    <div class="nav-actions">
+      <span class="badge badge-accent">Admin Mode</span>
+      <button class="btn btn-ghost btn-sm" onclick="goTo('screen-role')">Switch Role</button>
+    </div>
+  </nav>
+  <div class="container-lg" id="admin-content" style="padding: 0 0 4rem;">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+<!-- ===================== STUDENT LOBBY ===================== -->
+<div class="screen" id="screen-student">
+  <nav class="nav">
+    <div class="nav-logo"><span class="nav-dot"></span>QuizCraft</div>
+    <div class="nav-actions">
+      <span class="badge badge-purple">Student</span>
+      <button class="btn btn-ghost btn-sm" onclick="goTo('screen-role')">Switch Role</button>
+    </div>
+  </nav>
+  <div class="container anim-up" style="padding-top:80px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <div class="label" style="margin-bottom:0.3rem;">Available quizzes</div>
+        <h2 class="heading">Choose a Quiz</h2>
+      </div>
+    </div>
+    <div id="quiz-list"><!-- injected --></div>
+  </div>
+</div>
+
+<!-- ===================== QUIZ SCREEN ===================== -->
+<div class="screen" id="screen-quiz" style="align-items:flex-start; padding-top:80px;">
+  <nav class="nav">
+    <div class="nav-logo"><span class="nav-dot"></span><span id="quiz-nav-title">Quiz</span></div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost btn-sm" onclick="confirmQuit()">Quit</button>
+    </div>
+  </nav>
+  <div class="container-lg" style="padding-bottom: 4rem;">
+    <div class="quiz-layout">
+      <!-- Main -->
+      <div>
+        <!-- Progress -->
+        <div style="margin-bottom:1.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+            <span id="q-progress-label" class="label">Question 1 of 5</span>
+            <span id="q-progress-pct" style="font-size:0.82rem; color:var(--muted);">0%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="q-progress-bar" style="width:0%"></div></div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="card anim-up" id="q-card" style="margin-bottom:1rem;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
+            <span class="badge badge-purple" id="q-topic">Topic</span>
+            <span class="badge badge-yellow" id="q-difficulty">Medium</span>
+          </div>
+          <p style="font-size:1.15rem; font-weight:500; line-height:1.55; margin-bottom:1.5rem; font-family:var(--serif);" id="q-text">Question text here</p>
+          <div id="q-options" style="display:flex; flex-direction:column; gap:0.6rem;"></div>
+        </div>
+
+        <!-- Explanation -->
+        <div id="q-explanation" class="card" style="display:none; border-color:rgba(94,207,181,0.25); background:rgba(94,207,181,0.05);">
+          <div class="label" style="color:var(--accent4); margin-bottom:0.5rem;">Explanation</div>
+          <p id="q-explanation-text" style="font-size:0.9rem; line-height:1.7; color:var(--muted);"></p>
+        </div>
+
+        <!-- Controls -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem; flex-wrap:wrap; gap:0.75rem;">
+          <button class="btn btn-secondary btn-sm" onclick="prevQ()" id="btn-prev">← Previous</button>
+          <button class="btn btn-primary" onclick="nextQ()" id="btn-next">Next Question →</button>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar-card">
+        <!-- Timer -->
+        <div class="card" style="margin-bottom:1rem; text-align:center;">
+          <div class="label" style="margin-bottom:0.75rem;">Time Remaining</div>
+          <div style="display:flex; justify-content:center;">
+            <div class="timer-ring">
+              <svg width="88" height="88" viewBox="0 0 88 88">
+                <circle class="timer-ring-track" cx="44" cy="44" r="38"/>
+                <circle class="timer-ring-fill" id="timer-circle" cx="44" cy="44" r="38"
+                  stroke="var(--accent)"
+                  stroke-dasharray="238.76"
+                  stroke-dashoffset="0"/>
+              </svg>
+              <div class="timer-ring-label">
+                <span id="timer-display">--:--</span>
+                <span class="timer-ring-sub">remaining</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Question Nav -->
+        <div class="card">
+          <div class="label" style="margin-bottom:0.75rem;">Questions</div>
+          <div class="pill-nav" id="pill-nav"></div>
+          <div class="divider"></div>
+          <button class="btn btn-primary" style="width:100%;" onclick="submitQuiz()">Submit Quiz ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RESULTS SCREEN ===================== -->
+<div class="screen" id="screen-result" style="padding-top:80px; align-items:flex-start;">
+  <nav class="nav">
+    <div class="nav-logo"><span class="nav-dot"></span>QuizCraft</div>
+  </nav>
+  <div class="container anim-up" style="padding-bottom:4rem;">
+    <div id="result-content"></div>
+  </div>
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div id="modal-backdrop" class="modal-backdrop" style="display:none;" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div id="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
+  

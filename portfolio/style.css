@@ -43,6 +43,11 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.about-headings p{
+    font-size: 18px;
+    line-height: 1.5;
+}
+
 /* ===============Testing another option for the section================ */
 .about-container .aboutme-cards2{
     display: flex;
@@ -143,18 +148,56 @@
 }
 
 
+footer{
+    padding: 3rem 0;
+    background-color: rgb(15, 23, 42);
+    border: 1px solid #1e293b;
+    color: #e2dddd;
+    text-align: center;
+}
+.footer-container{
+    padding: 0 1.5rm;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+}
+.footer-container .content-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-container .content-box .icons-box{
+    display: flex;
+    gap: 1.5rem;
+    color: rgb(148 163 184);
+}
 
 
-
-
+/* 
 footer {
     background-color: #0a0a0f;
     color: #e2dddd;
     text-align: center;
     padding: 20px;
     font-size: 14px;
+} */
+
+
+/* ======================ANOTHER TRY======================== */
+.aboutme-cards3{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 40px;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+
 }
 
+.aboutme-cards3 .card{
+    width: 30%;
+}
 
 
 
@@ -185,4 +228,8 @@ footer {
     .about-container .aboutme-cards2 .card{
         width: 100%;
     }
+
+    .aboutme-cards3 .card{
+    width: 100%;
+}
 }
