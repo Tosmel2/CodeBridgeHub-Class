@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Management UI</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero-panel">
+      <div>
+        <p class="eyebrow">Student Management System</p>
+        <h1>Track students with confidence.</h1>
+        <p>Manage student records, update details, and view your class roster in a polished dashboard.</p>
+      </div>
+      <div class="hero-graphic">📚</div>
+    </header>
+
+    <main class="content-grid">
+      <section class="summary-card">
+        <h2>Quick Actions</h2>
+        <p>Use the form below to add or update a student record instantly.</p>
+      </section>
+
+      <section class="panel card form-card">
+        <div class="panel-header">
+          <h2>Student Form</h2>
+          <span class="status-tag" id="form-status">Create</span>
+        </div>
+        <form id="student-form">
+          <div class="field-row">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" type="text" placeholder="Jane Doe" required />
+          </div>
+          <div class="field-row">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="jane@example.com" required />
+          </div>
+          <div class="field-row">
+            <label for="course">Course</label>
+            <input id="course" name="course" type="text" placeholder="Web Development" required />
+          </div>
+          <div class="field-row">
+            <label for="level">Level</label>
+            <select id="level" name="level" required>
+              <option value="">Select Level</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="button primary">Save Student</button>
+            <button type="button" class="button secondary" id="reset-button">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel card table-card">
+        <div class="panel-header">
+          <h2>Student Roster</h2>
+          <button class="button tertiary" id="refresh-button">Refresh List</button>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Level</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="student-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast-container" id="toast-container"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
