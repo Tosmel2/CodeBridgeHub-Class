@@ -1,0 +1,235 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.hero-container{
+    background-color: #0f182c;
+    color: #e2dddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    text-align: center;
+    border: 4px solid green;
+}
+
+
+.about-container{
+    background-color: #0f172b;
+    color: #e2dddd;
+}
+.about-container .about-headings{
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
+.about-container .aboutme-cards{
+    display: flex;
+    gap: 20px;
+    padding: 40px 20px;
+
+}
+
+.about-container .aboutme-cards .card{
+    /* flex: 1; */
+    /* background-color: #f9f9f9; */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.about-headings p{
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* ===============Testing another option for the section================ */
+.about-container .aboutme-cards2{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px 20px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.about-container .aboutme-cards2 .card{
+    /* flex: 1; */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 40%;
+    /* height: 120px; */
+    min-height: 6rem;
+}
+
+/* ================skills section================ */
+.skills-container{
+    padding: 40px 20px;
+    border: 2px solid green;
+}
+
+.skills-container h2{
+    text-align: center;
+}
+
+.skills-container .skills_box-container{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.skills_box-container .skills-list{
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden; /*===================Do not forget to fix later*/
+    /* flex-wrap: wrap; */
+}
+
+.skills_box-container .skills-list ul{
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+}
+
+.skills_box-container .skills-list ul li{
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid rgb(82, 82, 225);
+}
+
+
+.projects-container{
+    padding: 40px 20px;
+}
+.projects-container h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.projects-parent-container .project-card-container{
+    display: flex;
+    gap: 20px;
+}
+
+.projects-parent-container .project-card-container .project-card{
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.project-card .project-tools-list{
+    margin: 10px 0;
+
+}
+
+.project-card .project-tools-list ul{
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+    /* flex-wrap: wrap; */
+}
+
+.project-card .project-tools-list ul li{
+    background-color: #f9f9f9;
+    padding: 5px 10px;
+    border-radius: 14px;
+    border: 1px solid rgb(82, 82, 225);
+}
+
+
+footer{
+    padding: 3rem 0;
+    background-color: rgb(15, 23, 42);
+    border: 1px solid #1e293b;
+    color: #e2dddd;
+    text-align: center;
+}
+.footer-container{
+    padding: 0 1.5rm;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+}
+.footer-container .content-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-container .content-box .icons-box{
+    display: flex;
+    gap: 1.5rem;
+    color: rgb(148 163 184);
+}
+
+
+/* 
+footer {
+    background-color: #0a0a0f;
+    color: #e2dddd;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+} */
+
+
+/* ======================ANOTHER TRY======================== */
+.aboutme-cards3{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 40px;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.aboutme-cards3 .card{
+    width: 30%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Standard syntax */
+@media screen and (max-width: 768px) {
+
+    .about-container .aboutme-cards{
+        flex-direction: column;
+    }
+
+    .skills-container .skills_box-container{
+        flex-direction: column;
+    }
+    .projects-parent-container .project-card-container{
+        flex-direction: column;
+    }
+
+    /* ===============Testing another option for the section================ */
+    .about-container .aboutme-cards2 .card{
+        width: 100%;
+    }
+
+    .aboutme-cards3 .card{
+    width: 100%;
+}
+}
