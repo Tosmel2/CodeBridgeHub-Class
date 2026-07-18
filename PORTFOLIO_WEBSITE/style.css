@@ -153,56 +153,35 @@ body{
 
 
 .btn-primary{
-
     text-decoration:none;
-
     padding:14px 34px;
-
     border-radius:50px;
-
     background:linear-gradient(90deg,#2563eb,#7c3aed);
-
     color:white;
-
     transition:.4s;
-
     box-shadow:0 0 20px rgba(37,99,235,.4);
 
 }
 
 .btn-primary:hover{
-
     transform:translateY(-4px);
-
     box-shadow:0 0 35px rgba(37,99,235,.6);
 
 }
 
-
 .btn-secondary{
-
     text-decoration:none;
-
     color:white;
-
     border:1px solid rgba(255,255,255,.2);
-
     padding:14px 34px;
-
     border-radius:50px;
-
     transition:.4s;
-
 }
 
 .btn-secondary:hover{
-
     background:white;
-
     color:#111827;
-
 }
-
 
 /* ==============================
    SOCIAL ICONS
@@ -212,14 +191,12 @@ body{
     display:flex;
     justify-content:center;
     gap:28px;
-
 }
 
 .social-icons a{
     color:#cfd8e3;
     font-size:24px;
     transition:.3s;
-
 }
 
 .social-icons a:hover{
@@ -232,44 +209,30 @@ body{
 =================================== */
 
 .about{
-
     background:#101827;
-
     padding:100px 8%;
-
 }
 
 /* Section Heading */
 
 .section-title{
-
     text-align:center;
-
     margin-bottom:35px;
-
 }
 
 .section-title h2{
-
     font-size:42px;
-
     font-weight:700;
-
     color:#ffffff;
-
 }
 
 /* Blue Underline */
 
 .underline{
-
     width:90px;
-
     height:4px;
-
     background:#2563eb;
     margin:15px auto 0;
-
     border-radius:20px;
 
 }
